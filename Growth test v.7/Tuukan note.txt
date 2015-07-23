@@ -1,0 +1,16 @@
+
+
+/////////////
+Kontrollit
+/////////////
+
+numerot 1-8 = eri v‰rit
+
+vasen hiiri maalaa
+oike hiiri poistaa
+
+A ja D k‰‰nt‰‰ kameraa
+
+R = reset
+
+scroll = zoom
