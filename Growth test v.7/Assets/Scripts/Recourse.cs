@@ -14,7 +14,7 @@ public class Recourse : MonoBehaviour {
 		nutrients = Random.Range (0, 101);
 		water = Random.Range (0, 101);
 
-		hexColor = new Color (0, 0, water / 100 , nutrients / 100);
+		hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
 		gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
 
 
@@ -25,20 +25,20 @@ public class Recourse : MonoBehaviour {
 		materialInUse = GameObject.Find ("GM").GetComponent<MouseScript> ().materialInUse;
 
 		if (materialInUse > 7) {
-			hexColor = new Color (0, 0, water / 100 , nutrients / 100);
+			hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
 			gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
 		}
 
-		if (nutrients > 100) {
+		if (nutrients > 99) {
 			nutrients = 100;
 		}
-		if (nutrients < 0) {
+		if (nutrients < 1) {
 			nutrients = 0;
 		}
-		if (water > 100) {
+		if (water > 99) {
 			water = 100;
 		}
-		if (water < 0) {
+		if (water < 1) {
 			water = 0;
 		}
 	}

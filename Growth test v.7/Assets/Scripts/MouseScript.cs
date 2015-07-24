@@ -104,11 +104,6 @@ public class MouseScript : MonoBehaviour {
 				materialInUse = 9;
 				Debug.Log ("Nutrients");
 			}
-
-//		if (Input.GetKeyDown (KeyCode.Alpha5)) {
-//			materialInUse = 4;
-//			Debug.Log (materialInUse);
-//		}
 		}
 	}
 }
