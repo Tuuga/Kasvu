@@ -13,6 +13,11 @@ public class MouseScript : MonoBehaviour {
 	public Material yellow;
 	public Material pink;
 	public Material[] colors;
+
+	public Vector3 hexPos;
+	public Quaternion hexRot;
+
+	public GameObject plant;
 	
 	public int materialInUse = 0;
 
@@ -36,6 +41,9 @@ public class MouseScript : MonoBehaviour {
 		Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hitPoint;
 		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
+
+			hexPos = hitPoint.collider.gameObject.transform.position;
+
 			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
 //				hitPoint.collider.gameObject.tag = "aim";
 				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [materialInUse];
@@ -62,48 +70,56 @@ public class MouseScript : MonoBehaviour {
 				hitPoint.collider.gameObject.GetComponent <Recourse> ().nutrients -= 1;
 			}
 
-
-
-			if (Input.GetKeyDown (KeyCode.Alpha1)) {
-				materialInUse = 0;
-				Debug.Log ("Green");
+			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKeyDown (KeyCode.Mouse0) && materialInUse == 10) {
+				Instantiate (plant, hexPos, hexRot);
 			}
-			if (Input.GetKeyDown (KeyCode.Alpha2)) {
-				materialInUse = 1;
-				Debug.Log ("Brown");
+			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10) {
+				Destroy (hitPoint.collider.gameObject);
 			}
-			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-				materialInUse = 2;
-				Debug.Log ("Blue");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha4)) {
-				materialInUse = 3;
-				Debug.Log ("Red");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha5)) {
-				materialInUse = 4;
-				Debug.Log ("Black");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha6)) {
-				materialInUse = 5;
-				Debug.Log ("Orange");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha7)) {
-				materialInUse = 6;
-				Debug.Log ("Yellow");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha8)) {
-				materialInUse = 7;
-				Debug.Log ("Pink");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha9)) {
-				materialInUse = 8;
-				Debug.Log ("Water");
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha0)) {
-				materialInUse = 9;
-				Debug.Log ("Nutrients");
-			}
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha1)) {
+			materialInUse = 0;
+			Debug.Log ("Green");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha2)) {
+			materialInUse = 1;
+			Debug.Log ("Brown");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha3)) {
+			materialInUse = 2;
+			Debug.Log ("Blue");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha4)) {
+			materialInUse = 3;
+			Debug.Log ("Red");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			materialInUse = 4;
+			Debug.Log ("Black");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha6)) {
+			materialInUse = 5;
+			Debug.Log ("Orange");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha7)) {
+			materialInUse = 6;
+			Debug.Log ("Yellow");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha8)) {
+			materialInUse = 7;
+			Debug.Log ("Pink");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha9)) {
+			materialInUse = 8;
+			Debug.Log ("Water");
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha0)) {
+			materialInUse = 9;
+			Debug.Log ("Nutrients");
+		}
+		if (Input.GetKeyDown (KeyCode.P)) {
+			materialInUse = 10;
+			Debug.Log ("Plant");
 		}
 	}
 }
