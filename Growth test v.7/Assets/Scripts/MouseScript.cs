@@ -21,6 +21,7 @@ public class MouseScript : MonoBehaviour {
 
 	public GameObject plant;
 	public GameObject cameraFocus;
+	public GameObject tilt;
 
 	public int materialInUse = 10;
 	public int childCount;
@@ -92,8 +93,12 @@ public class MouseScript : MonoBehaviour {
 
 		}
 		if (Input.GetKey(KeyCode.Space) && Input.GetKey (KeyCode.Mouse0)){
-			Debug.Log ("Space + M1");
-			cameraFocus.transform.position += -cursorPos;
+			cameraFocus.transform.position += new Vector3 (-Input.GetAxis("Mouse X"),1,-Input.GetAxis("Mouse Y"));
+		}
+		if (Input.GetKey(KeyCode.Space) && Input.GetKey (KeyCode.Mouse1)){
+
+			tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis("Mouse Y"),0,0);
+			cameraFocus.transform.rotation *= Quaternion.Euler (0,-Input.GetAxis("Mouse X"),0);
 		}
 
 		cursorPos = hitPoint.point;

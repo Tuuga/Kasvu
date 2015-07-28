@@ -9,7 +9,6 @@ public class Reset : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.R)) {
 			gameObject.GetComponent<Renderer>().material = white;
-			gameObject.tag = "notaim";
 		}
 	}
 }
