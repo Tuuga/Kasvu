@@ -6,9 +6,12 @@ public class PanControlls : MonoBehaviour {
 
 	public float panSpeed;
 	public float rotSpeed;
+	float posY;
 
 	// Use this for initialization
 	void Start () {
+
+		posY = transform.position.y;
 
 		rotSpeed = GameObject.Find ("Main Camera").GetComponent<CameraScript> ().rotSpeed;
 	
@@ -16,6 +19,10 @@ public class PanControlls : MonoBehaviour {
 	
 
 	void Update () {
+
+		Vector3 pos = transform.position;
+		pos.y = posY;
+		transform.position = pos;
 
 //		Vector3 w = new Vector3 (1,0,0);
 //		Vector3 s = new Vector3 (-1,0,0);

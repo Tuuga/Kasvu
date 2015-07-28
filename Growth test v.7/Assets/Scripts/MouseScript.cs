@@ -12,15 +12,17 @@ public class MouseScript : MonoBehaviour {
 	public Material orange;
 	public Material yellow;
 	public Material pink;
-
 	public Material[] colors;
 
-	public Vector3 hexPos;
 	public Quaternion hexRot;
 
+	public Vector3 hexPos;
+	public Vector3 cursorPos;
+
 	public GameObject plant;
-	
-	public int materialInUse = 0;
+	public GameObject cameraFocus;
+
+	public int materialInUse = 10;
 	public int childCount;
 
 	void Start () {
@@ -40,11 +42,15 @@ public class MouseScript : MonoBehaviour {
 
 	void Update () {
 
+//		Debug.Log (Input.GetAxis("Mouse X"));
+//		Debug.Log (Input.GetAxis("Mouse Y"));
+
 		Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hitPoint;
 		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
 
 			hexPos = hitPoint.collider.gameObject.transform.position;
+			cursorPos = hitPoint.point;
 
 
 			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
@@ -74,16 +80,24 @@ public class MouseScript : MonoBehaviour {
 				hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
 			}
 
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10 
+			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false
 			    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
 
 				GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
 				plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 			}
-			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10) {
+			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false) {
 				Destroy (hitPoint.collider.gameObject);
 			}
+
 		}
+		if (Input.GetKey(KeyCode.Space) && Input.GetKey (KeyCode.Mouse0)){
+			Debug.Log ("Space + M1");
+			cameraFocus.transform.position += -cursorPos;
+		}
+
+		cursorPos = hitPoint.point;
+
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			materialInUse = 0;
 			Debug.Log ("Green");

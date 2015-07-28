@@ -19,6 +19,8 @@ public class Grid: MonoBehaviour
 	[SerializeField]
 	GameObject grid;
 
+	public GameObject[][] heksagons;
+
 	[MenuItem ("Grid-O-Matic/One Grid please!")]
 	static void GenerateGrid() {
 		GameObject.Find ("GM").GetComponent<Grid> ().setSizes();
@@ -38,9 +40,8 @@ public class Grid: MonoBehaviour
 	Vector3 calcInitPos()
 	{
 		Vector3 initPos;
-		//the initial position will be in the left upper corner
-		initPos = new Vector3(-hexWidth * gridWidthInHexes / 2f + hexWidth / 2, 0,
-		                      gridHeightInHexes / 2f * hexHeight - hexHeight / 2);
+
+		initPos = new Vector3(-hexWidth * gridWidthInHexes / 2f + hexWidth * 3 / 4, 0, gridHeightInHexes / 2f * -hexHeight * 3 / 4 + hexHeight /2 * 3 / 4);
 		
 		return initPos;
 	}
@@ -51,14 +52,16 @@ public class Grid: MonoBehaviour
 		//Position of the first hex tile
 		Vector3 initPos = calcInitPos();
 		//Every second row is offset by half of the tile width
-		float offset = 0;
-		if (gridPos.y % 2 != 0)
-			offset = hexWidth / 2;
+		//float offset = 0;
+		//if (gridPos.y % 2 != 0)
+		//	offset = hexWidth / 2;
 		
-		float x =  initPos.x + offset + gridPos.x * hexWidth;
+		//float x =  initPos.x + offset + gridPos.x * hexWidth;
 		//Every new line is offset in z direction by 3/4 of the hexagon height
-		float z = initPos.z - gridPos.y * hexHeight * 0.75f;
-		return new Vector3(x, 0, z);
+		//float z = initPos.z + gridPos.y * hexHeight * 0.75f;
+		//return new Vector3(x, 0, z);
+		initPos += Vector3.right * gridPos.x * hexWidth + Quaternion.AngleAxis (-30, Vector3.up) * Vector3.forward * gridPos.y * hexWidth;
+		return initPos;
 	}
 	
 	//Finally the method which initialises and positions all the tiles
@@ -70,10 +73,13 @@ public class Grid: MonoBehaviour
 		//Game object which is the parent of all the hex tiles
 		GameObject hexGridGO = new GameObject("HexGrid");
 		grid = hexGridGO;
+		heksagons = new GameObject[gridWidthInHexes + (gridHeightInHexes - 1) / 2][];
+		for (int x = 0; x < heksagons.Length; x ++)
+			heksagons[x] = new GameObject[gridHeightInHexes];
 		
-		for (float y = 0; y < gridHeightInHexes; y++)
+		for (int y = 0; y < gridHeightInHexes; y++)
 		{
-			for (float x = 0; x < gridWidthInHexes; x++)
+			for (int x = 0 + y / 2; x < gridWidthInHexes + y / 2; x++)
 			{
 				//GameObject assigned to Hex public variable is cloned
 				GameObject hex = (GameObject)Instantiate(Hex);
@@ -81,14 +87,8 @@ public class Grid: MonoBehaviour
 				Vector2 gridPos = new Vector2(x, y);
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;
+				heksagons[x][y] = hex;
 			}
 		}
-	}
-	
-	//The grid should be generated on game start
-	void Start()
-	{
-		//setSizes();
-		//createGrid();
 	}
 }
