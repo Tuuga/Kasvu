@@ -15,19 +15,24 @@ public class MouseScript : MonoBehaviour {
 	public Material[] colors;
 
 	public Quaternion hexRot;
-
 	public Vector3 hexPos;
-	public Vector3 cursorPos;
 
 	public GameObject plant;
 	public GameObject cameraFocus;
+	public GameObject mainCamera;
 	public GameObject tilt;
+
+	public float panSpeed;
+	float cameraPanSpeed;
 
 	public int materialInUse = 10;
 	public int childCount;
 
+	public bool lookMode;
+
 	void Start () {
-		
+
+		//Array of clored materials
 		colors = new Material[9];
 		
 		colors[0] = green;
@@ -43,66 +48,71 @@ public class MouseScript : MonoBehaviour {
 
 	void Update () {
 
-//		Debug.Log (Input.GetAxis("Mouse X"));
-//		Debug.Log (Input.GetAxis("Mouse Y"));
+		cameraPanSpeed = Vector3.Distance(cameraFocus.transform.position,mainCamera.transform.position) * panSpeed;
 
 		Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hitPoint;
+
+		//LookMode
+		//Panning
+		if (Input.GetKey (KeyCode.Mouse0)){
+			lookMode = true;
+//			cameraFocus.transform.position -= new Vector3 (0,0,Input.GetAxis("Mouse Y")) * cameraPanSpeed;
+//			cameraFocus.transform.right += new Vector3 (Input.GetAxis("Mouse X"),0,0) * cameraPanSpeed;
+			cameraFocus.transform.position += new Vector3 (Input.GetAxis("Mouse X"),0,Input.GetAxis("Mouse Y")) * cameraPanSpeed;
+		}
+		//Orbiting
+		if (Input.GetKey (KeyCode.Mouse1)){
+			lookMode = true;
+			tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis("Mouse Y"),0,0);
+			cameraFocus.transform.rotation *= Quaternion.Euler (0,Input.GetAxis("Mouse X"),0);
+		}
+
 		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
 
 			hexPos = hitPoint.collider.gameObject.transform.position;
-			cursorPos = hitPoint.point;
 
+			if (lookMode == false) {
 
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
-//				hitPoint.collider.gameObject.tag = "aim";
-				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [materialInUse];
-			}
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
-//				hitPoint.collider.gameObject.tag = "notaim";
-				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = white;
-			}
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse2) && materialInUse < 8) {
-//				hitPoint.collider.gameObject.tag = "aim";
-				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [Random.Range (0, 8)];
-			}
+				//Coloring the hexes
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
+					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [materialInUse];
+				}
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
+					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = white;
+				}
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse2) && materialInUse < 8) {
+					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [Random.Range (0, 8)];
+				}
 
+				//Resource modification
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 8) {
+					hitPoint.collider.gameObject.GetComponent <Resourse> ().water += 1;
+				}
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 8) {
+					hitPoint.collider.gameObject.GetComponent <Resourse> ().water -= 1;
+				}
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 9) {
+					hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients += 1;
+				}
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
+					hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
+				}
 
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 8) {
-				hitPoint.collider.gameObject.GetComponent <Resourse> ().water += 1;
-			}
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 8) {
-				hitPoint.collider.gameObject.GetComponent <Resourse> ().water -= 1;
-			}
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 9) {
-				hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients += 1;
-			}
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
-				hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
-			}
+				//Setting and removing plants
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10
+				    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
 
-			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false
-			    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
-
-				GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
-				plantIns.transform.parent = hitPoint.collider.gameObject.transform;
+					GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
+					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
+				}
+				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10) {
+					Destroy (hitPoint.collider.gameObject);
+				}
 			}
-			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false) {
-				Destroy (hitPoint.collider.gameObject);
-			}
-
-		}
-		if (Input.GetKey(KeyCode.Space) && Input.GetKey (KeyCode.Mouse0)){
-			cameraFocus.transform.position += new Vector3 (-Input.GetAxis("Mouse X"),1,-Input.GetAxis("Mouse Y"));
-		}
-		if (Input.GetKey(KeyCode.Space) && Input.GetKey (KeyCode.Mouse1)){
-
-			tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis("Mouse Y"),0,0);
-			cameraFocus.transform.rotation *= Quaternion.Euler (0,-Input.GetAxis("Mouse X"),0);
 		}
 
-		cursorPos = hitPoint.point;
-
+		//Setting the index of the material that you want to use
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			materialInUse = 0;
 			Debug.Log ("Green");
@@ -135,14 +145,17 @@ public class MouseScript : MonoBehaviour {
 			materialInUse = 7;
 			Debug.Log ("Pink");
 		}
+		//9 for adding or removing water from a hex
 		if (Input.GetKeyDown (KeyCode.Alpha9)) {
 			materialInUse = 8;
 			Debug.Log ("Water");
 		}
+		//9 for adding or removing nutrients from a hex
 		if (Input.GetKeyDown (KeyCode.Alpha0)) {
 			materialInUse = 9;
 			Debug.Log ("Nutrients");
 		}
+		//P for adding or removing plants from a hex
 		if (Input.GetKeyDown (KeyCode.P)) {
 			materialInUse = 10;
 			Debug.Log ("Plant");
