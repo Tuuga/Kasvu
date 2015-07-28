@@ -54,34 +54,34 @@ public class MouseScript : MonoBehaviour {
 			cursorPos = hitPoint.point;
 
 
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse < 8) {
 //				hitPoint.collider.gameObject.tag = "aim";
 				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [materialInUse];
 			}
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
 //				hitPoint.collider.gameObject.tag = "notaim";
 				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = white;
 			}
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse2) && materialInUse < 8) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse2) && materialInUse < 8) {
 //				hitPoint.collider.gameObject.tag = "aim";
 				hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [Random.Range (0, 8)];
 			}
 
 
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 8) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 8) {
 				hitPoint.collider.gameObject.GetComponent <Resourse> ().water += 1;
 			}
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 8) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 8) {
 				hitPoint.collider.gameObject.GetComponent <Resourse> ().water -= 1;
 			}
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 9) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 9) {
 				hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients += 1;
 			}
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
 				hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
 			}
 
-			if (hitPoint.collider.gameObject.tag == "notaim" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false
+			if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10 && Input.GetKeyDown(KeyCode.Space) == false
 			    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
 
 				GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
