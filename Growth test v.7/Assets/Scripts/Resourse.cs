@@ -8,6 +8,10 @@ public class Resourse : MonoBehaviour {
 	public float materialInUse;
 	public int childCount;
 
+	// Heks position in grid in axis cordinates.
+	public int xPos;
+	public int yPos;
+
 //	public float resTimer;
 //	public float nutrientUsage;
 //	public float waterUsage = 20;
