@@ -88,6 +88,8 @@ public class Grid: MonoBehaviour
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;
 				heksagons[x][y] = hex;
+				hex.GetComponent<Resourse> ().xPos = x;
+				hex.GetComponent<Resourse> ().yPos = y;
 			}
 		}
 	}
