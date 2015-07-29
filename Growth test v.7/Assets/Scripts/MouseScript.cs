@@ -65,7 +65,7 @@ public class MouseScript : MonoBehaviour {
 			}
 			//Orbiting
 			if (Input.GetKey (KeyCode.Mouse1)) {
-				tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis ("Mouse Y") * orbitSpeed, 0, 0);
+//				tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis ("Mouse Y") * orbitSpeed, 0, 0);
 				cameraFocus.transform.rotation *= Quaternion.Euler (0, Input.GetAxis ("Mouse X") * orbitSpeed, 0);
 			}
 		} else {

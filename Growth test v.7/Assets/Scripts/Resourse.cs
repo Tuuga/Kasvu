@@ -21,6 +21,7 @@ public class Resourse : MonoBehaviour {
 //	public bool waterSetBack;
 
 	public Color hexColor;
+	public Material test;
 
 //	public GameObject[] plant;
 //	public GameObject plantTest;
@@ -34,14 +35,14 @@ public class Resourse : MonoBehaviour {
 		childCount = gameObject.transform.childCount;
 
 		//Sets random amount of recourses to the hex
-//		nutrients = Random.Range (0, 101);
-//		water = Random.Range (0, 101);
+		nutrients = Random.Range (0, 101);
+		water = Random.Range (0, 101);
 
-		nutrients = 100;
-		water = 100;
+//		nutrients = 100;
+//		water = 100;
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
-		hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
+		hexColor = new Color (0, 0 , water / 100 , nutrients / 100);
 		gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
 
 	}
@@ -61,19 +62,19 @@ public class Resourse : MonoBehaviour {
 			n = false;
 		}
 
-		if (w == false) {
-			water += 100 * Time.deltaTime;
-		}
-		if (w == true) {
-			water -= 100 * Time.deltaTime;
-		}
-
-		if (n == false) {
-			nutrients += 100 * Time.deltaTime;
-		}
-		if (n == true) {
-			nutrients -= 100 * Time.deltaTime;
-		}
+//		if (w == false) {
+//			water += 100 * Time.deltaTime;
+//		}
+//		if (w == true) {
+//			water -= 100 * Time.deltaTime;
+//		}
+//
+//		if (n == false) {
+//			nutrients += 100 * Time.deltaTime;
+//		}
+//		if (n == true) {
+//			nutrients -= 100 * Time.deltaTime;
+//		}
 
 
 
@@ -82,8 +83,9 @@ public class Resourse : MonoBehaviour {
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
 		if (materialInUse > 7) {
-			hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
+			hexColor = new Color (0, 0 , water, nutrients) * 0.01f;
 			gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
+	
 		}
 
 		//Caps the recourses between 0 and 100
