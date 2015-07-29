@@ -3,15 +3,15 @@ using System.Collections;
 
 public class MouseScript : MonoBehaviour {
 
-	public Material green;
-	public Material brown;
-	public Material blue;
-	public Material red;
-	public Material white;
-	public Material black;
-	public Material orange;
-	public Material yellow;
-	public Material pink;
+//	public Material green;
+//	public Material brown;
+//	public Material blue;
+//	public Material red;
+//	public Material white;
+//	public Material black;
+//	public Material orange;
+//	public Material yellow;
+//	public Material pink;
 	public Material[] colors;
 
 	public Quaternion hexRot;
@@ -23,6 +23,7 @@ public class MouseScript : MonoBehaviour {
 	public GameObject tilt;
 
 	public float panSpeed;
+	public float orbitSpeed;
 	float cameraPanSpeed;
 
 	public int materialInUse = 10;
@@ -33,16 +34,16 @@ public class MouseScript : MonoBehaviour {
 	void Start () {
 
 		//Array of clored materials
-		colors = new Material[9];
+//		colors = new Material[9];
 		
-		colors[0] = green;
-		colors[1] = brown;
-		colors[2] = blue;
-		colors[3] = red;
-		colors[4] = black;
-		colors[5] = orange;
-		colors[6] = yellow;
-		colors[7] = pink;
+//		colors[0] = green;
+//		colors[1] = brown;
+//		colors[2] = blue;
+//		colors[3] = red;
+//		colors[4] = black;
+//		colors[5] = orange;
+//		colors[6] = yellow;
+//		colors[7] = pink;
 		
 	}
 
@@ -55,17 +56,20 @@ public class MouseScript : MonoBehaviour {
 
 		//LookMode
 		//Panning
-		if (Input.GetKey (KeyCode.Mouse0)){
+		if (Input.GetKey (KeyCode.LeftShift)) {
 			lookMode = true;
-//			cameraFocus.transform.position -= new Vector3 (0,0,Input.GetAxis("Mouse Y")) * cameraPanSpeed;
-//			cameraFocus.transform.right += new Vector3 (Input.GetAxis("Mouse X"),0,0) * cameraPanSpeed;
-			cameraFocus.transform.position += new Vector3 (Input.GetAxis("Mouse X"),0,Input.GetAxis("Mouse Y")) * cameraPanSpeed;
-		}
-		//Orbiting
-		if (Input.GetKey (KeyCode.Mouse1)){
-			lookMode = true;
-			tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis("Mouse Y"),0,0);
-			cameraFocus.transform.rotation *= Quaternion.Euler (0,Input.GetAxis("Mouse X"),0);
+
+			if (Input.GetKey (KeyCode.Mouse0)) {
+				cameraFocus.transform.position -= cameraFocus.transform.forward * Input.GetAxis("Mouse Y") * cameraPanSpeed;
+				cameraFocus.transform.position -= cameraFocus.transform.right * Input.GetAxis("Mouse X") * cameraPanSpeed;
+			}
+			//Orbiting
+			if (Input.GetKey (KeyCode.Mouse1)) {
+				tilt.transform.rotation *= Quaternion.Euler (-Input.GetAxis ("Mouse Y") * orbitSpeed, 0, 0);
+				cameraFocus.transform.rotation *= Quaternion.Euler (0, Input.GetAxis ("Mouse X") * orbitSpeed, 0);
+			}
+		} else {
+			lookMode = false;
 		}
 
 		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
@@ -79,7 +83,7 @@ public class MouseScript : MonoBehaviour {
 					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [materialInUse];
 				}
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
-					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = white;
+					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [8];
 				}
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse2) && materialInUse < 8) {
 					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [Random.Range (0, 8)];
@@ -106,7 +110,7 @@ public class MouseScript : MonoBehaviour {
 					GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
 					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 				}
-				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKeyDown (KeyCode.Mouse1) && materialInUse == 10) {
+				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 10) {
 					Destroy (hitPoint.collider.gameObject);
 				}
 			}

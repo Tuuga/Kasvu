@@ -26,13 +26,19 @@ public class Resourse : MonoBehaviour {
 //	public GameObject plantTest;
 //	public Quaternion plantPos;
 
+	bool w;
+	bool n;
+
 	void Start () {
 
 		childCount = gameObject.transform.childCount;
 
 		//Sets random amount of recourses to the hex
-		nutrients = Random.Range (0, 101);
-		water = Random.Range (0, 101);
+//		nutrients = Random.Range (0, 101);
+//		water = Random.Range (0, 101);
+
+		nutrients = 100;
+		water = 100;
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
 		hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
@@ -42,49 +48,34 @@ public class Resourse : MonoBehaviour {
 
 	void Update () {
 
-//		if (Input.GetKeyDown (KeyCode.Space)) {
-//			Instantiate (plantTest, transform.position, plantPos);
-//		}
+		if (water > Random.Range (70, 100)) {
+			w = true;
+		}
+		if (water < Random.Range (0, 30)) {
+			w = false;
+		}
+		if (nutrients > Random.Range (70, 100)) {
+			n = true;
+		}
+		if (nutrients < Random.Range (0, 30)) {
+			n = false;
+		}
 
-		//If there is a plant, put it in the array
-//		if (plant != null) {
-//		plant = GameObject.FindGameObjectsWithTag ("Plant");
-//		}
-//		if (plant == null) {
-//			plantClose = false;
-//		}
+		if (w == false) {
+			water += 100 * Time.deltaTime;
+		}
+		if (w == true) {
+			water -= 100 * Time.deltaTime;
+		}
+
+		if (n == false) {
+			nutrients += 100 * Time.deltaTime;
+		}
+		if (n == true) {
+			nutrients -= 100 * Time.deltaTime;
+		}
 
 
-		//Is there a plant close by?
-//		for (int i = 0; i < plant.Length; i++) {
-//			if (Vector3.Distance (plant[i].transform.position , gameObject.transform.position) < 2f) {
-//				plantClose = true;
-//			} else {
-//				plantClose = false;
-//			}
-//		}
-
-//		if (gameObject.GetComponent<Transform> ().FindChild ("Plant(Clone)") == true) {
-//			plantClose = true;
-//		}
-//		if (gameObject.GetComponent<Transform> ().FindChild ("Plant(Clone)") == false) {
-//			plantClose = false;
-//		}
-
-		//Water used if there is a plant close by
-//		if (plantClose == true && waterUsed == false) {
-//			water -= waterUsage;
-//			nutrients -= nutrientUsage * Time.deltaTime;
-//			waterUsed = true;
-//			waterSetBack = false;
-//		}
-//
-//		//Releases the used water if there is no plant nearby
-//		if (plantClose == false && waterSetBack == false) {
-//			water += waterUsage;
-//			waterUsed = false;
-//			waterSetBack = true;
-//		}
 
 		//Checks for the material that is being used at the moment
 		materialInUse = GameObject.Find ("GM").GetComponent<MouseScript> ().materialInUse;
