@@ -19,7 +19,7 @@ public class Grid: MonoBehaviour
 	[SerializeField]
 	GameObject grid;
 
-	public GameObject[][] heksagons;
+	public GameObject[] heksagons;
 
 	[MenuItem ("Grid-O-Matic/One Grid please!")]
 	static void GenerateGrid() {
@@ -73,10 +73,8 @@ public class Grid: MonoBehaviour
 		//Game object which is the parent of all the hex tiles
 		GameObject hexGridGO = new GameObject("HexGrid");
 		grid = hexGridGO;
-		heksagons = new GameObject[gridWidthInHexes + (gridHeightInHexes - 1) / 2][];
-		for (int x = 0; x < heksagons.Length; x ++)
-			heksagons[x] = new GameObject[gridHeightInHexes];
-		
+		heksagons = new GameObject[(gridWidthInHexes + (gridHeightInHexes - 1) / 2) * gridHeightInHexes];
+
 		for (int y = 0; y < gridHeightInHexes; y++)
 		{
 			for (int x = 0 + y / 2; x < gridWidthInHexes + y / 2; x++)
@@ -87,7 +85,7 @@ public class Grid: MonoBehaviour
 				Vector2 gridPos = new Vector2(x, y);
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;
-				heksagons[x][y] = hex;
+				heksagons[x + y * (gridWidthInHexes + (gridHeightInHexes - 1) / 2)] = hex;
 				hex.GetComponent<Resourse> ().xPos = x;
 				hex.GetComponent<Resourse> ().yPos = y;
 			}
