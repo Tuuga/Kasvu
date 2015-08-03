@@ -4,7 +4,13 @@ using System.Collections;
 public class Plant : MonoBehaviour {
 
 	public GameObject parentHex;
+
 	public float nutrientUse = 10;
+	public bool nutrientUsedAsStockpile = true;
+	public int nutrientUseRadius = 1;
+	public float wateruse = 10;
+	public bool waterUsedAsStockpile = true;
+	public int waterUseRadius = 1;
 
 	float timer = 0;
 	public float requiredTime = 10;
