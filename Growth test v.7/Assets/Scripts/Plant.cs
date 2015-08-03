@@ -3,29 +3,53 @@ using System.Collections;
 
 public class Plant : MonoBehaviour {
 
+	public enum resourceUseType {limit, cap, stockpile};
+	
+	public static resourceUseType nutrientUseType = resourceUseType.stockpile;
+	public static resourceUseType waterUseType = resourceUseType.stockpile;
+
 	public GameObject parentHex;
 
 	public float nutrientUse = 10;
-	public bool nutrientUsedAsStockpile = true;
 	public int nutrientUseRadius = 1;
-	public float wateruse = 10;
-	public bool waterUsedAsStockpile = true;
+	public float waterUse = 10;
 	public int waterUseRadius = 1;
 
-	float timer = 0;
+	public float nutrientProduktion = 10;
+	public int nutrientProduktionRadius = 1;
+	public float waterProduktion = 10;
+	public int waterProduktionRadius = 1;
+
 	public float requiredTime = 10;
+
+	float timer = 0;
+
 	Animator anim;
 
 	void Start () {
 		parentHex = transform.parent.gameObject;
-		parentHex.GetComponent<Resourse> ().water -= 20;
+
+		if (waterUseType == resourceUseType.cap) {
+			parentHex.GetComponent<Resourse> ().water -= waterUse;
+		}
+		if (nutrientUseType == resourceUseType.cap) {
+			parentHex.GetComponent<Resourse> ().nutrients -= nutrientUse;
+		}
 
 		anim = GetComponent<Animator> ();
 	}
 
 	void Update () {
+		if (parentHex.GetComponent<Resourse> ().nutrients < nutrientUse || parentHex.GetComponent<Resourse> ().water < waterUse) {
+			timer -= Mathf.Max((Time.deltaTime / 2) * ((nutrientUse - parentHex.GetComponent<Resourse> ().nutrients) / nutrientUse), 0) + Mathf.Max((Time.deltaTime / 2) * ((waterUse - parentHex.GetComponent<Resourse> ().water) / waterUse), 0);
+		} else {
+			timer += Time.deltaTime;
+		}
 
-		if (parentHex.GetComponent<Resourse> ().nutrients > 0) {
+		if (parentHex.GetComponent<Resourse> ().water > 0 && waterUseType == resourceUseType.stockpile) {
+			parentHex.GetComponent<Resourse> ().water -= waterUse * Time.deltaTime;
+		}
+		if (parentHex.GetComponent<Resourse> ().nutrients > 0 && nutrientUseType == resourceUseType.stockpile) {
 			parentHex.GetComponent<Resourse> ().nutrients -= nutrientUse * Time.deltaTime;
 		}
 
@@ -33,7 +57,6 @@ public class Plant : MonoBehaviour {
 			Destroy (gameObject);
 		}
 
-		timer += Time.deltaTime;
 		if (timer >= requiredTime) {
 			timer -= requiredTime;
 			if(anim.GetBool("hasNutrients") == false) {
@@ -45,10 +68,17 @@ public class Plant : MonoBehaviour {
 				anim.SetBool ("canFlower", false);
 				anim.SetBool ("producedSeed", true);
 			}
+		} else if (timer <= -10) {
+			Destroy (gameObject);
 		}
 	}
 
 	void OnDestroy () {
-		parentHex.GetComponent<Resourse> ().water += 20;
+		if (waterUseType == resourceUseType.cap) {
+			parentHex.GetComponent<Resourse> ().water += waterUse;
+		}
+		if (nutrientUseType == resourceUseType.cap) {
+			parentHex.GetComponent<Resourse> ().nutrients += nutrientUse;
+		}
 	}
 }
