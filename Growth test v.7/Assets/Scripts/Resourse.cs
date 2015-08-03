@@ -15,6 +15,11 @@ public class Resourse : MonoBehaviour {
 	public Color hexColor;
 	public Material test;
 
+	public bool lifeCanGrow;
+	bool lifeSpawned;
+	public GameObject lifePrefab;
+	GameObject life;
+
 	void Start () {
 
 		childCount = gameObject.transform.childCount;
@@ -30,6 +35,16 @@ public class Resourse : MonoBehaviour {
 	}
 
 	void Update () {
+
+		if (lifeCanGrow == true && lifeSpawned == false) {
+			life = (GameObject)Instantiate (lifePrefab, transform.position, transform.rotation);
+			life.transform.parent = gameObject.transform;
+			lifeSpawned = true;
+		}
+		if (lifeCanGrow == false && life != null) {
+			Destroy (life);
+			lifeSpawned = false;
+		}
 
 		//Checks for the material that is being used at the moment
 		materialInUse = GameObject.Find ("GM").GetComponent<MouseScript> ().materialInUse;
