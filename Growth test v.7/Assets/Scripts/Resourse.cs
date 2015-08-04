@@ -13,14 +13,16 @@ public class Resourse : MonoBehaviour {
 	public int yPos;
 
 	public Color hexColor;
-	public Material test;
 
 	public bool lifeCanGrow;
-	bool lifeSpawned;
+	public bool lifeSpawned;
 	public GameObject lifePrefab;
 	GameObject life;
+	Quaternion zeroRot;
 
 	void Start () {
+
+		zeroRot = new Quaternion (0, 0, 0, 0);
 
 		childCount = gameObject.transform.childCount;
 
@@ -37,7 +39,7 @@ public class Resourse : MonoBehaviour {
 	void Update () {
 
 		if (lifeCanGrow == true && lifeSpawned == false) {
-			life = (GameObject)Instantiate (lifePrefab, transform.position, transform.rotation);
+			life = (GameObject)Instantiate (lifePrefab, transform.position, zeroRot);
 			life.transform.parent = gameObject.transform;
 			lifeSpawned = true;
 		}

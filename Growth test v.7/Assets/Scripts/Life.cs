@@ -2,13 +2,32 @@
 using System.Collections;
 
 public class Life : MonoBehaviour {
-	
-	public int radius = 1;
-	int startR;
 
-//	public GameObject life;
+	float resHexCount;
+	public float waterUse;
+	public float nutrientUse;
+
+	float sharedWaterUse;
+	float sharedNutrientUse;
+
+	float totalWaterInRadius;
+	float totalNutrientInRadius;
+
+	public int lifeStartRadius;
+
+	float growTimer;
+	int growCurrentLevel;
+	public int growMaxLevel;
+	float growTime;
+	public float growStep;
+	bool grew;
+
+	public int resRadius = 1;
+
+	
 	GameObject parentHex;
 	GameObject[] Hexes;
+	GameObject[] hexesInRadius;
 	int key;
 	Grid axisGrid;
 
@@ -18,7 +37,6 @@ public class Life : MonoBehaviour {
 
 	void Start () {
 
-		Debug.Log ("LIFE");
 		axisGrid = GameObject.Find ("GM").GetComponent<Grid> ();
 		Hexes = axisGrid.heksagons;
 		key = axisGrid.gridWidthInHexes + (axisGrid.gridHeightInHexes - 1) / 2;
@@ -27,38 +45,71 @@ public class Life : MonoBehaviour {
 
 		X = parentHex.GetComponent<Resourse> ().xPos;
 		Y = parentHex.GetComponent<Resourse> ().yPos;
-		R = radius;
-		//Radius for growing
+		R = resRadius;
 		for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
 			for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
-				Hexes[x + y * key].GetComponent<Resourse>().lifeCanGrow = true;
+				resHexCount ++;
 			}
 		}
+		sharedWaterUse = waterUse / resHexCount;
+		sharedNutrientUse = nutrientUse / resHexCount;
 	}
 
 	void Update () {
 
+		//Radius for resource use
+		R = resRadius;
+		for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
+			for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
+
+				Hexes[x + y * key].GetComponent<Resourse>().water -= sharedWaterUse;
+				Hexes[x + y * key].GetComponent<Resourse>().nutrients -= sharedNutrientUse;
+	
+				totalWaterInRadius += Hexes[x + y * key].GetComponent<Resourse>().water;
+				totalNutrientInRadius += Hexes[x + y * key].GetComponent<Resourse>().nutrients;
+			}
+		}
+
+//		Debug.Log ("Water Level: " + totalWaterInRadius);
+//		Debug.Log ("Nutrient Level: " + totalNutrientInRadius);
+		totalWaterInRadius = 0;
+		totalNutrientInRadius = 0;
+
+		//Time for growth
+		growTimer += Time.deltaTime;
+		if (growTimer > growTime && growCurrentLevel < growMaxLevel) {
+
+			lifeStartRadius ++;
+			growCurrentLevel ++;
+			growTime += growStep;
+		}
+
 		//Checks if the radius has changed
 		//Resets the Life Can Grow bool based on the new radius
-		if (radius - R != 0) {
+		if (lifeStartRadius - R != 0) {
+			R = lifeStartRadius;
 			for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
 				for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
 					Hexes[x + y * key].GetComponent<Resourse>().lifeCanGrow = false;
 				}
 			}
-			R = radius;
-			for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
-				for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
-					Hexes[x + y * key].GetComponent<Resourse>().lifeCanGrow = true;
-				}
+		}
+
+		R = lifeStartRadius;
+		for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
+			for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
+				Hexes[x + y * key].GetComponent<Resourse>().lifeCanGrow = true;
 			}
 		}
-		// inputit radiuksen vaihtoon
+		//Inputs for changing the radius
 		if (Input.GetKeyDown (KeyCode.C)) {
-			radius --;
+			lifeStartRadius --;
 		}
 		if (Input.GetKeyDown (KeyCode.V)) {
-			radius ++;
+			lifeStartRadius ++;
+		}
+		if (lifeStartRadius < 0) {
+			lifeStartRadius = 0;
 		}
 	}
 }

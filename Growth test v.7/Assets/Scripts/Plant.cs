@@ -16,18 +16,20 @@ public class Plant : MonoBehaviour {
 	public float requiredTime = 10;
 	Animator anim;
 
+
+	//Resurssi systeemit kommentoitu pois
 	void Start () {
-		parentHex = transform.parent.gameObject;
-		parentHex.GetComponent<Resourse> ().water -= 20;
+//		parentHex = transform.parent.gameObject;
+//		parentHex.GetComponent<Resourse> ().water -= 20;
 
 		anim = GetComponent<Animator> ();
 	}
 
 	void Update () {
 
-		if (parentHex.GetComponent<Resourse> ().nutrients > 0) {
-			parentHex.GetComponent<Resourse> ().nutrients -= nutrientUse * Time.deltaTime;
-		}
+//		if (parentHex.GetComponent<Resourse> ().nutrients > 0) {
+//			parentHex.GetComponent<Resourse> ().nutrients -= nutrientUse * Time.deltaTime;
+//		}
 
 		if (Input.GetKeyDown (KeyCode.R)) {
 			Destroy (gameObject);
@@ -49,6 +51,6 @@ public class Plant : MonoBehaviour {
 	}
 
 	void OnDestroy () {
-		parentHex.GetComponent<Resourse> ().water += 20;
+//		parentHex.GetComponent<Resourse> ().water += 20;
 	}
 }
