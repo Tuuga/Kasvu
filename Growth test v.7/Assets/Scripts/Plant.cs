@@ -30,6 +30,8 @@ public class Plant : MonoBehaviour {
 	int xPos;
 	int yPos;
 
+
+	//Resurssi systeemit kommentoitu pois
 	void Start () {
 		parentHex = transform.parent.gameObject;
 		anim = GetComponent<Animator> ();
@@ -128,7 +130,6 @@ public class Plant : MonoBehaviour {
 					}
 				}
 			}
-
 			R = nutrientProduktionRadius;
 			y = Mathf.Max (Y - R, 0);
 			yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);

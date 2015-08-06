@@ -99,16 +99,31 @@ public class MouseScript : MonoBehaviour {
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
 					hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
 				}
-
+//				hitPoint.collider.gameObject.transform.childCount < hitPoint.collider.gameObject.GetComponent<Resourse>().childCount
 				//Setting and removing plants
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10
-				    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
+				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant")) {
 
 					GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
 					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
+					plantIns.name = "Plant";
+					float randomScale = Random.Range (0.5f , 1.5f);
+					Vector3 plantScale = new Vector3 (randomScale,randomScale,randomScale);
+					plantIns.transform.localScale = (plantScale);
 				}
-				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 10) {
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 11
+				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant")) {
+					
+					GameObject plantIns = (GameObject)Instantiate (plant2, hexPos, hexRot);
+					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
+					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
+					plantIns.name = "Plant";
+					float randomScale = Random.Range (0.5f , 1.5f);
+					Vector3 plantScale = new Vector3 (randomScale,randomScale,randomScale);
+					plantIns.transform.localScale = (plantScale);
+				}
+				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse >= 10) {
 					Destroy (hitPoint.collider.gameObject);
 				}
 				//Setting and removing plants
@@ -173,10 +188,9 @@ public class MouseScript : MonoBehaviour {
 			materialInUse = 10;
 			Debug.Log ("Plant");
 		}
-		//P for adding or removing plants from a hex
 		if (Input.GetKeyDown (KeyCode.O)) {
 			materialInUse = 11;
-			Debug.Log ("Plant2");
+			Debug.Log ("PlantB");
 		}
 		if (Input.GetKeyDown (KeyCode.Period)) {
 			radius ++;
