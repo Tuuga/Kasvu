@@ -9,6 +9,7 @@ public class MouseScript : MonoBehaviour {
 	public Vector3 hexPos;
 
 	public GameObject plant;
+	public GameObject plant2;
 	public GameObject cameraFocus;
 	public GameObject mainCamera;
 	public GameObject tilt;
@@ -110,6 +111,17 @@ public class MouseScript : MonoBehaviour {
 				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 10) {
 					Destroy (hitPoint.collider.gameObject);
 				}
+				//Setting and removing plants
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 11
+				    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
+					
+					GameObject plantIns = (GameObject)Instantiate (plant2, hexPos, hexRot);
+					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
+					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
+				}
+				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 11) {
+					Destroy (hitPoint.collider.gameObject);
+				}
 			}
 		}
 
@@ -160,6 +172,11 @@ public class MouseScript : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.P)) {
 			materialInUse = 10;
 			Debug.Log ("Plant");
+		}
+		//P for adding or removing plants from a hex
+		if (Input.GetKeyDown (KeyCode.O)) {
+			materialInUse = 11;
+			Debug.Log ("Plant2");
 		}
 		if (Input.GetKeyDown (KeyCode.Period)) {
 			radius ++;
