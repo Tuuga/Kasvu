@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class Resourse : MonoBehaviour {
+	
+	public float waterMin;
+	public float waterMax;
+	public float nutrientMin;
+	public float nutrientMax;
 
 	public float nutrients;
 	public float water;
@@ -27,8 +32,8 @@ public class Resourse : MonoBehaviour {
 		childCount = gameObject.transform.childCount;
 
 		//Sets random amount of recourses to the hex
-		nutrients = Random.Range (0, 101);
-		water = Random.Range (0, 101);
+		nutrients = Random.Range (nutrientMin, nutrientMax);
+		water = Random.Range (waterMin, waterMax);
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
 		hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
