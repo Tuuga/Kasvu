@@ -10,7 +10,7 @@ public class Resourse : MonoBehaviour {
 
 	public float nutrients;
 	public float water;
-	public float materialInUse;
+	public bool drawMode;
 	public int childCount;
 
 	// Hex position in grid in axis cordinates.
@@ -54,10 +54,10 @@ public class Resourse : MonoBehaviour {
 		}
 
 		//Checks for the material that is being used at the moment
-		materialInUse = GameObject.Find ("GM").GetComponent<MouseScript> ().materialInUse;
+		drawMode = GameObject.Find ("GM").GetComponent<MouseScript> ().drawMode;
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
-		if (materialInUse > 7) {
+		if (drawMode == false) {
 			hexColor = new Color (0, nutrients / 100 , water / 100, 1);
 			gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
 	
