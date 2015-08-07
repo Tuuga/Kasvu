@@ -8,8 +8,7 @@ public class MouseScript : MonoBehaviour {
 	public Quaternion hexRot;
 	public Vector3 hexPos;
 
-	public GameObject plant;
-	public GameObject plant2;
+	public GameObject[] plants;
 	public GameObject cameraFocus;
 	public GameObject mainCamera;
 	public GameObject tilt;
@@ -19,6 +18,7 @@ public class MouseScript : MonoBehaviour {
 	float cameraPanSpeed;
 
 	public int materialInUse = 10;
+	public int plantInUse;
 	public int childCount;
 
 	public int radius = 1;
@@ -79,6 +79,7 @@ public class MouseScript : MonoBehaviour {
 						}
 					}
 				}
+
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse < 8) {
 					hitPoint.collider.gameObject.GetComponent<Renderer> ().material = colors [8];
 				}
@@ -99,12 +100,17 @@ public class MouseScript : MonoBehaviour {
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 9) {
 					hitPoint.collider.gameObject.GetComponent <Resourse> ().nutrients -= 1;
 				}
-//				hitPoint.collider.gameObject.transform.childCount < hitPoint.collider.gameObject.GetComponent<Resourse>().childCount
-				//Setting and removing plants
-				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10
-				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant")) {
 
-					GameObject plantIns = (GameObject)Instantiate (plant, hexPos, hexRot);
+
+
+
+				//Setting and removing plants
+
+				//Plant 1
+				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 10
+				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant")&& hitPoint.collider.gameObject.GetComponent<Resourse>().lifeCanGrow == true) {
+
+					GameObject plantIns = (GameObject)Instantiate (plants[0], hexPos, hexRot);
 					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
 					plantIns.name = "Plant";
@@ -112,10 +118,12 @@ public class MouseScript : MonoBehaviour {
 					Vector3 plantScale = new Vector3 (randomScale,randomScale,randomScale);
 					plantIns.transform.localScale = (plantScale);
 				}
+
+				//Plant 2
 				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 11
-				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant")) {
+				    && !hitPoint.collider.gameObject.transform.FindChild ("Plant") && hitPoint.collider.gameObject.GetComponent<Resourse>().lifeCanGrow == true) {
 					
-					GameObject plantIns = (GameObject)Instantiate (plant2, hexPos, hexRot);
+					GameObject plantIns = (GameObject)Instantiate (plants[1], hexPos, hexRot);
 					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
 					plantIns.name = "Plant";
@@ -123,24 +131,27 @@ public class MouseScript : MonoBehaviour {
 					Vector3 plantScale = new Vector3 (randomScale,randomScale,randomScale);
 					plantIns.transform.localScale = (plantScale);
 				}
+				//Destroying plants
 				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse >= 10) {
 					Destroy (hitPoint.collider.gameObject);
 				}
-				//Setting and removing plants
-				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && materialInUse == 11
-				    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
-					
-					GameObject plantIns = (GameObject)Instantiate (plant2, hexPos, hexRot);
-					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
-					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
-				}
-				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 11) {
-					Destroy (hitPoint.collider.gameObject);
-				}
+				//Setting and removing plants														Can place a plant only if life is growing on that hex
+//				if (hitPoint.collider.gameObject.tag == "Hex" && Input.GetKey (KeyCode.Mouse0) && hitPoint.collider.gameObject.GetComponent<Resourse>().lifeCanGrow == true && materialInUse == 11
+//				    && hitPoint.collider.gameObject.transform.childCount == hitPoint.collider.gameObject.GetComponent<Resourse>().childCount) {
+//					
+//					GameObject plantIns = (GameObject)Instantiate (plant2, hexPos, hexRot);
+//					plantIns.transform.parent = hitPoint.collider.gameObject.transform;
+//					plantIns.transform.Rotate(0, Random.Range(0, 360), 0);
+//				}
+//				if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && materialInUse == 11) {
+//					Destroy (hitPoint.collider.gameObject);
+//				}
 			}
 		}
 
 		//Setting the index of the material that you want to use
+
+
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			materialInUse = 0;
 			Debug.Log ("Green");
@@ -173,17 +184,17 @@ public class MouseScript : MonoBehaviour {
 			materialInUse = 7;
 			Debug.Log ("Pink");
 		}
-		//9 for adding or removing water from a hex
-		if (Input.GetKeyDown (KeyCode.Alpha9)) {
-			materialInUse = 8;
-			Debug.Log ("Water");
-		}
-		//9 for adding or removing nutrients from a hex
-		if (Input.GetKeyDown (KeyCode.Alpha0)) {
-			materialInUse = 9;
-			Debug.Log ("Nutrients");
-		}
-		//P for adding or removing plants from a hex
+//		//9 for adding or removing water from a hex
+//		if (Input.GetKeyDown (KeyCode.Alpha9)) {
+//			materialInUse = 8;
+//			Debug.Log ("Water");
+//		}
+//		//9 for adding or removing nutrients from a hex
+//		if (Input.GetKeyDown (KeyCode.Alpha0)) {
+//			materialInUse = 9;
+//			Debug.Log ("Nutrients");
+//		}
+		//P and O for adding or removing plants from a hex
 		if (Input.GetKeyDown (KeyCode.P)) {
 			materialInUse = 10;
 			Debug.Log ("Plant");
@@ -192,11 +203,11 @@ public class MouseScript : MonoBehaviour {
 			materialInUse = 11;
 			Debug.Log ("PlantB");
 		}
-		if (Input.GetKeyDown (KeyCode.Period)) {
-			radius ++;
-		}
-		if (Input.GetKeyDown (KeyCode.Comma)) {
-			radius --;
-		}
+//		if (Input.GetKeyDown (KeyCode.Period)) {
+//			radius ++;
+//		}
+//		if (Input.GetKeyDown (KeyCode.Comma)) {
+//			radius --;
+//		}
 	}
 }

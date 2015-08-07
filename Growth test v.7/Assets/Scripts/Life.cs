@@ -37,6 +37,8 @@ public class Life : MonoBehaviour {
 
 	void Start () {
 
+		growTime = growStep;
+
 		axisGrid = GameObject.Find ("GM").GetComponent<Grid> ();
 		Hexes = axisGrid.heksagons;
 		key = axisGrid.gridWidthInHexes + (axisGrid.gridHeightInHexes - 1) / 2;
