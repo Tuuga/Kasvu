@@ -54,7 +54,7 @@ public class Resourse : MonoBehaviour {
 		}
 
 		//Checks for the material that is being used at the moment
-		drawMode = GameObject.Find ("GM").GetComponent<MouseScript> ().drawMode;
+		drawMode = false;//GameObject.Find ("GM").GetComponent<MouseScript> ().drawMode;
 
 		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
 		if (drawMode == false) {
