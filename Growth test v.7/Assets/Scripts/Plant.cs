@@ -50,7 +50,13 @@ public class Plant : MonoBehaviour {
 		yPos = parentHex.GetComponent<Resourse> ().yPos;
 
 		if (nutrientUseType != resourceUseType.stockpile) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(nutrientProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().nutrients < 100) {
+					hexArray[i].GetComponent<Resourse> ().nutrients += nutrientProduktion;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientProduktionRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -63,11 +69,17 @@ public class Plant : MonoBehaviour {
 						Hexes[x + y * key].GetComponent<Resourse> ().nutrients += nutrientProduktion;
 					}
 				}
-			}
+			} */
 		}
 
 		if (waterUseType != resourceUseType.stockpile) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(waterProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().water < 100) {
+					hexArray[i].GetComponent<Resourse> ().water += waterProduktion;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterProduktionRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -80,11 +92,17 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().water += waterProduktion;
 					}
 				}
-			}
+			}*/
 		}
 
 		if (nutrientUseType == resourceUseType.limit) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(nutrientUseRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().nutrients > 0) {
+					hexArray[i].GetComponent<Resourse> ().nutrients -= nutrientUse;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -97,11 +115,17 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().nutrients -= nutrientUse;
 					}
 				}
-			}
+			}*/
 		}
 
 		if (waterUseType == resourceUseType.limit) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(waterUseRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().water > 0) {
+					hexArray[i].GetComponent<Resourse> ().water -= waterUse;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -114,7 +138,7 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().water -= waterUse;
 					}
 				}
-			}
+			}*/
 		}
 	}
 
@@ -175,12 +199,18 @@ public class Plant : MonoBehaviour {
 		isDying = false;
 		if (nutrientUseType == resourceUseType.stockpile) {
 			ResourceLoop (nutrientUseRadius, nutrientUse, true);
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(nutrientProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().nutrients < 100) {
+					hexArray[i].GetComponent<Resourse> ().nutrients += nutrientProduktion * Time.deltaTime;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientProduktionRadius;//nutrientUseRadius;
 			int y = Mathf.Max (Y - R, 0);
 			int yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);
-		/*	for (; y <= yCap; y ++) {
+			for (; y <= yCap; y ++) {
 				int x = Mathf.Max (X - R, X - R + y - Y, 0 + y / 2);
 				int xCap = Mathf.Min (X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
 				for (; x <= xCap; x ++) {
@@ -193,7 +223,7 @@ public class Plant : MonoBehaviour {
 			}
 			R = nutrientProduktionRadius;
 			y = Mathf.Max (Y - R, 0);
-			yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);*/
+			yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);
 			for(; y <= yCap; y ++) {
 				int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2);
 				int xCap = Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
@@ -202,17 +232,23 @@ public class Plant : MonoBehaviour {
 						Hexes[x + y * key].GetComponent<Resourse> ().nutrients += nutrientProduktion * Time.deltaTime;
 					}
 				}
-			}
+			}*/
 		}
 
 		if (waterUseType == resourceUseType.stockpile) {
 			ResourceLoop (waterUseRadius, waterUse, false);
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(waterProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().water < 100) {
+					hexArray[i].GetComponent<Resourse> ().water += waterProduktion * Time.deltaTime;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterProduktionRadius;//waterUseRadius;
 			int y = Mathf.Max (Y - R, 0);
 			int yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);
-		/*	for (; y <= yCap; y ++) {
+			for (; y <= yCap; y ++) {
 				int x = Mathf.Max (X - R, X - R + y - Y, 0 + y / 2);
 				int xCap = Mathf.Min (X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
 				for (; x <= xCap; x ++) {
@@ -226,7 +262,7 @@ public class Plant : MonoBehaviour {
 
 			R = waterProduktionRadius;
 			y = Mathf.Max (Y - R, 0);
-			yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);*/
+			yCap = Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1);
 			for (; y <= yCap; y ++) {
 				int x = Mathf.Max (X - R, X - R + y - Y, 0 + y / 2);
 				int xCap = Mathf.Min (X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
@@ -235,7 +271,7 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().water += waterProduktion * Time.deltaTime;
 					}
 				}
-			}
+			}*/
 		}
 
 		if (Input.GetKeyDown (KeyCode.R)) {
@@ -244,7 +280,12 @@ public class Plant : MonoBehaviour {
 
 		if (nutrientUseType != resourceUseType.stockpile) {
 			float totalRes = 0;
-			int X = xPos;
+			int R = nutrientUseRadius;
+			GameObject[] hexArray = HF.HexesArray(R, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				totalRes += hexArray [i].GetComponent<Resourse> ().nutrients;
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -254,18 +295,23 @@ public class Plant : MonoBehaviour {
 				int xCap = Mathf.Min (X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
 				for (; x <= xCap; x ++) {
 					totalRes += Hexes [x + y * key].GetComponent<Resourse> ().nutrients;
-				/*	if (Hexes [x + y * key].GetComponent<Resourse> ().nutrients < nutrientUse) {
+					if (Hexes [x + y * key].GetComponent<Resourse> ().nutrients < nutrientUse) {
 						isDying = true;
-					}*/
+					}
 				}
-			}
+			}*/
 			if (totalRes < nutrientUse * (1 + (R + 1) / 2 * 6 * R)) {
 				isDying = true;
 			}
 		}
 		if (waterUseType != resourceUseType.stockpile) {
 			float totalRes = 0;
-			int X = xPos;
+			int R = waterUseRadius;
+			GameObject[] hexArray = HF.HexesArray(R, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				totalRes += hexArray [i].GetComponent<Resourse> ().water;
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -275,11 +321,11 @@ public class Plant : MonoBehaviour {
 				int xCap = Mathf.Min (X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1);
 				for (; x <= xCap; x ++) {
 					totalRes += Hexes [x + y * key].GetComponent<Resourse> ().water;
-				/*	if (Hexes [x + y * key].GetComponent<Resourse> ().water < waterUse) {
+					if (Hexes [x + y * key].GetComponent<Resourse> ().water < waterUse) {
 						isDying = true;
-					}*/
+					}
 				}
-			}
+			}*/
 			if (totalRes < waterUse * (1 + (R + 1) / 2 * 6 * R)) {
 				isDying = true;
 			}
@@ -310,7 +356,13 @@ public class Plant : MonoBehaviour {
 
 	void OnDestroy () {
 		if (nutrientUseType != resourceUseType.stockpile) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(nutrientProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().nutrients < 100) {
+					hexArray[i].GetComponent<Resourse> ().nutrients -= nutrientProduktion;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientProduktionRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -323,11 +375,17 @@ public class Plant : MonoBehaviour {
 						Hexes[x + y * key].GetComponent<Resourse> ().nutrients -= nutrientProduktion;
 					}
 				}
-			}
+			}*/
 		}
 		
 		if (waterUseType != resourceUseType.stockpile) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(waterProduktionRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().water < 100) {
+					hexArray[i].GetComponent<Resourse> ().water -= waterProduktion;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterProduktionRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -340,11 +398,17 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().water -= waterProduktion;
 					}
 				}
-			}
+			}*/
 		}
 		
 		if (nutrientUseType == resourceUseType.limit) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(nutrientUseRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().nutrients > 0) {
+					hexArray[i].GetComponent<Resourse> ().nutrients += nutrientUse;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = nutrientUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -357,11 +421,17 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().nutrients += nutrientUse;
 					}
 				}
-			}
+			}*/
 		}
 		
 		if (waterUseType == resourceUseType.limit) {
-			int X = xPos;
+			GameObject[] hexArray = HF.HexesArray(waterUseRadius, xPos, yPos);
+			for(int i = 0; i < hexArray.Length; i ++) {
+				if (hexArray[i].GetComponent<Resourse> ().water > 0) {
+					hexArray[i].GetComponent<Resourse> ().water += waterUse;
+				}
+			}
+		/*	int X = xPos;
 			int Y = yPos;
 			int R = waterUseRadius;
 			int y = Mathf.Max (Y - R, 0);
@@ -374,7 +444,7 @@ public class Plant : MonoBehaviour {
 						Hexes [x + y * key].GetComponent<Resourse> ().water += waterUse;
 					}
 				}
-			}
+			}*/
 		}
 	}
 }

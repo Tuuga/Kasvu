@@ -26,7 +26,14 @@ public class Grid: MonoBehaviour
 		GameObject.Find ("GM").GetComponent<Grid> ().setSizes();
 		GameObject.Find ("GM").GetComponent<Grid> ().createGrid();
 	}
-	
+
+	void Awake () {
+		HF.Hexes = heksagons;
+		HF.key = gridWidthInHexes + (gridHeightInHexes - 1) / 2;
+		HF.gridHeight = gridHeightInHexes;
+		HF.gridWidth = gridWidthInHexes;
+	}
+
 	//Method to initialise Hexagon width and height
 	void setSizes()
 	{
