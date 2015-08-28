@@ -47,7 +47,7 @@ public class Plant : MonoBehaviour {
 	
 	public float waterDrain = 0;
 	public int waterDrainRadius = 0;
-	
+
 	public float nutrientBind = 0;
 	public int nutrientBindRadius = 0;
 	

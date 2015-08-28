@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Resourse : MonoBehaviour {
-	
+
+	public float lifeInHex;
+
 	public float waterMin;
 	public float waterMax;
 	public float nutrientMin;
@@ -14,20 +16,20 @@ public class Resourse : MonoBehaviour {
 	public int childCount;
 
 	// Hex position in grid in axis cordinates.
+	[HideInInspector]
 	public int xPos;
+	[HideInInspector]
 	public int yPos;
 
+	[HideInInspector]
 	public Color hexColor;
 
 	public bool lifeCanGrow;
 	public bool lifeSpawned;
+
 	public GameObject lifePrefab;
-	GameObject life;
-	Quaternion zeroRot;
 
-	void Start () {
-
-		zeroRot = new Quaternion (0, 0, 0, 0);
+	void Awake () {
 
 		childCount = gameObject.transform.childCount;
 
@@ -35,46 +37,13 @@ public class Resourse : MonoBehaviour {
 		nutrients = Random.Range (nutrientMin, nutrientMax);
 		water = Random.Range (waterMin, waterMax);
 
-		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
-		hexColor = new Color (0, nutrients / 100 , water / 100 , 1);
-		gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
-
 	}
 
 	void Update () {
 
-		if (lifeCanGrow == true && lifeSpawned == false) {
-			life = (GameObject)Instantiate (lifePrefab, transform.position, zeroRot);
-			life.transform.parent = gameObject.transform;
-			lifeSpawned = true;
-		}
-		if (lifeCanGrow == false && life != null) {
-			Destroy (life);
-			lifeSpawned = false;
-		}
-
-		//Checks for the material that is being used at the moment
-		drawMode = false;//GameObject.Find ("GM").GetComponent<MouseScript> ().drawMode;
-
-		//Colors the hexes based on how much recourses it has (water = blue, nutrients = green)
-		if (drawMode == false) {
-			hexColor = new Color (0, nutrients / 100 , water / 100, 1);
-			gameObject.GetComponent<Renderer> ().material.SetColor ("_Color", hexColor);
-	
-		}
-
 		//Caps the recourses between 0 and 100
-		if (nutrients > 100) {
-			nutrients = 100;
-		}
-		if (nutrients < 0) {
-			nutrients = 0;
-		}
-		if (water > 100) {
-			water = 100;
-		}
-		if (water < 0) {
-			water = 0;
-		}
+		nutrients = Mathf.Clamp (nutrients, 0, 100);
+		water = Mathf.Clamp (water, 0, 100);
+
 	}
 }

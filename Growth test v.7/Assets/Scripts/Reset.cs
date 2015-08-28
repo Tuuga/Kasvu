@@ -9,33 +9,30 @@ public class Reset : MonoBehaviour {
 
 	void Update () {
 
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Resources.UnloadUnusedAssets();
+		}
+
 		//R for Reset
 		if (Input.GetKeyDown(KeyCode.R)) {
-			life = GameObject.FindGameObjectsWithTag("Life");
-			hex = GameObject.FindGameObjectsWithTag("Hex");
-
-//			Reset for hex color
-			for (int i = 0; i <= hex.Length-1; i++) {
-				hex[i].GetComponent<Renderer>().material = white;
-				hex[i].GetComponent<Resourse>().lifeCanGrow = false;
-				hex[i].GetComponent<Resourse>().lifeSpawned = false;
-			}
-//			Destroys all life
-			for (int i = 0; i <= life.Length-1; i++){
-				Destroy (life[i]);
-			}
+			reset();
 		}
-		if (Input.GetKeyDown (KeyCode.B)) {
-			hex = GameObject.FindGameObjectsWithTag("Hex");
+	}
+	public void reset () {
 
-			for (int i = 0; i <= hex.Length-1; i++) {
-				if (hex[i].GetComponent<Resourse>().lifeCanGrow != false) {
-					Debug.Log ("RESET SCRIPT B | Can grow: " + i);
-				}
-				if (hex[i].GetComponent<Resourse>().lifeSpawned != false) {
-					Debug.Log ("RESET SCRIPT B | Spawned: " + i);
-				}
-			}
+		life = GameObject.FindGameObjectsWithTag("Life");
+		hex = GameObject.FindGameObjectsWithTag("Hex");
+		
+		//			Reset for hex color
+		for (int i = 0; i <= hex.Length-1; i++) {
+			hex[i].GetComponent<Renderer>().material = white;
+			hex[i].GetComponent<Resourse>().lifeCanGrow = false;
+			hex[i].GetComponent<Resourse>().lifeSpawned = false;
+		}
+		//			Destroys all life
+		for (int i = 0; i <= life.Length-1; i++){
+			Destroy (life[i]);
 		}
 	}
 }

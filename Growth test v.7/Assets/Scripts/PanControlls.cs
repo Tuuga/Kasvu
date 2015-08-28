@@ -15,21 +15,10 @@ public class PanControlls : MonoBehaviour {
 		Vector3 cPos = transform.position;
 		Quaternion cRot = transform.rotation;
 
+		cPos.x = Mathf.Clamp (cPos.x, -15, 15);
+		cPos.z = Mathf.Clamp (cPos.z, -9, 9);
 		cPos.y = posY;
 	
-		if (cPos.x < -25f) {
-			cPos.x = -25f;
-		}
-		if (cPos.x > 25f) {
-			cPos.x = 25f;
-		}
-		if (cPos.z < -25f) {
-			cPos.z = -25f;
-		}
-		if (cPos.z > 25f) {
-			cPos.z = 25f;
-		}
-
 		transform.position = cPos;
 		transform.rotation = cRot;
 	}
