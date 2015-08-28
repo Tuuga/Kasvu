@@ -63,7 +63,7 @@ public class MouseScript : MonoBehaviour {
 			lookMode = false;
 		}
 
-		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
+		if (Physics.Raycast (camRay, out hitPoint, 100f, 1 << 8)) {
 
 			hexPos = hitPoint.collider.gameObject.transform.position;
 
