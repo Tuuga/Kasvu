@@ -24,6 +24,12 @@ public class LevelEditor : EditorWindow {
 	}
 
 	void Update () {
-	
+
+//		Ray camRay = Camera.current.ScreenPointToRay (Input.mousePosition);
+//		RaycastHit hitPoint;
+//
+//		if (Physics.Raycast (camRay, out hitPoint, 100f)) {
+//			Debug.Log (hitPoint.collider.name);
+//		}
 	}
 }
