@@ -30,6 +30,8 @@ public class PlantLife : MonoBehaviour {
 	}
 
 	void OnDestroy() {
-		GM.GetComponent<GrowthManager> ().DestroyLife(gameObject);
+		if (GM != null) { //Prevents errors when stopping playmode
+			GM.GetComponent<GrowthManager> ().DestroyLife (gameObject);
+		}
 	}
 }
