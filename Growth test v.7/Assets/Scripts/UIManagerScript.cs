@@ -4,6 +4,8 @@ using System.Collections;
 
 public class UIManagerScript : MonoBehaviour {
 
+	GameObject[] highlights;
+	public GameObject hexHighlight;
 	public GameObject resUI;
 	GameObject GM;
 	GameObject InputModeText;
@@ -19,6 +21,7 @@ public class UIManagerScript : MonoBehaviour {
 	[HideInInspector]
 	public string nutrientColorRGBA;
 
+	bool highlightToggle = false;
 	bool toggle;
 
 	void Start () {
@@ -31,18 +34,33 @@ public class UIManagerScript : MonoBehaviour {
 
 		for (int i = 0; i < GM.GetComponent<Grid>().heksagons.Length; i++) {
 			if (GM.GetComponent<Grid> ().heksagons [i] != null) {
+				GameObject hexHighlightIns = (GameObject)Instantiate (hexHighlight, GM.GetComponent<Grid> ().heksagons [i].transform.position, new Quaternion (0, 0, 0, 0));
 				GameObject resUIIns = (GameObject)Instantiate (resUI, GM.GetComponent<Grid> ().heksagons [i].transform.position, new Quaternion (0, 0, 0, 0));
+
 				resUIIns.transform.parent = GM.GetComponent<Grid> ().heksagons [i].transform;
+				hexHighlightIns.transform.parent = GM.GetComponent<Grid> ().heksagons [i].transform;
 			}
 		}
+		highlights = GameObject.FindGameObjectsWithTag ("Highlight");
 	}
 
 	void Update () {
+
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			HexHighlight();
+		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4)) {
 			Text plantInUse = GameObject.Find("PlantInUse").GetComponent<Text>();
 			float plantNumber = GM.GetComponent<MouseScript>().plantInUse + 1;
 			plantInUse.text = "Plant " + plantNumber;
+		}
+	}
+
+	public void HexHighlight () {
+		highlightToggle = !highlightToggle;
+		for (int i = 0; i < highlights.Length; i++){
+			highlights[i].SetActive(highlightToggle);
 		}
 	}
 
