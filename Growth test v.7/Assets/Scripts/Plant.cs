@@ -23,6 +23,10 @@ public class Plant : MonoBehaviour {
 	public float requiredTimeToFlower = 10;
 	public float requiredTimeToSeed = 10;
 	public float requiredTimeToDie = 10;
+
+	public int seedMax = 2;
+	public int seedMin = 0;
+	public int seedIndex = 0;
 	
 	//
 	
@@ -235,6 +239,8 @@ public class Plant : MonoBehaviour {
 					currentPlantState = plantState.flower;
 					requiredTime = requiredTimeToSeed;
 				} else {
+					if (currentPlantState != plantState.sprouting)
+						GameInterFace.seeds[seedIndex] += Random.Range(seedMin, seedMax + 1);
 					currentPlantState = plantState.adult;
 					requiredTime = requiredTimeToFlower;
 				}
