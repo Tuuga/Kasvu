@@ -9,7 +9,7 @@ public class HexVisualizer : MonoBehaviour {
 	float timer;
 	public float timeToUpdate;
 
-	float[] normalMapLevel;
+	float[] normalMapLevel = {0,0.1f,0.2f,0.6f,0.9f};
 	public Texture normalMap;
 	public Texture[] nutrientTexture;
 	public Color[] waterColor;
@@ -18,21 +18,14 @@ public class HexVisualizer : MonoBehaviour {
 	int waterIndex;
 
 	void Start () {
-		normalMapLevel = new float[5];
-		normalMapLevel [0] = 0;
-		normalMapLevel [1] = 0.1f;
-		normalMapLevel [2] = 0.2f;
-		normalMapLevel [3] = 0.6f;
-		normalMapLevel [4] = 0.9f;
 
 		GetComponent<Renderer>().material.shaderKeywords = new string[1]{"_NORMALMAP"};
 		VisUpdate();
-//		Debug.Log ("ID: " + gameObject.GetInstanceID() + " | BumpScale: " + GetComponent<Renderer>().material.GetFloat("_BumpScale"));
 	}
 
 	void Update () {
 
-		if (Input.GetKey (KeyCode.G)) {
+		if (Input.GetKeyDown (KeyCode.G)) {
 			ResourceWithLife();
 		}
 
@@ -58,7 +51,7 @@ public class HexVisualizer : MonoBehaviour {
 			rZ = Random.Range (-0.2f,0.2f);
 
 			if (gameObject.transform.FindChild("Life") != null) {
-				GameObject nutrientFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				Instantiate (nutrientFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
 			}
 		}
 		for (int i = 0; i < waterIndex; i++) {
@@ -67,12 +60,12 @@ public class HexVisualizer : MonoBehaviour {
 			rZ = Random.Range (-0.2f,0.2f);
 
 			if (gameObject.transform.FindChild("Life") != null) {
-				GameObject waterFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				Instantiate (waterFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
 			}
 		}
 	}
 
-	void VisUpdate () {
+	public void VisUpdate () {
 
 		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 25;
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 25;
@@ -80,7 +73,7 @@ public class HexVisualizer : MonoBehaviour {
 
 		GetComponent<Renderer>().material.SetTexture ("_MainTex",nutrientTexture [nutrientIndex]);
 		GetComponent<Renderer> ().material.SetTexture ("_BumpMap", normalMap);
-		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
+//		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
 
 		GetComponent<Renderer>().material.color = waterColor [waterIndex];
 	}

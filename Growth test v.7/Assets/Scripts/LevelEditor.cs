@@ -4,9 +4,16 @@ using System.Collections;
 
 public class LevelEditor : EditorWindow {
 
-	string drawMode = "Draw";
-	string editMode = "Edit";
-	string rayObject;
+	string sceneString = "Scene";
+	string waterString = "Water";
+	string nutrientString = "Nutrient";
+	bool sceneBool;
+	bool waterBool;
+	bool nutrientBool;
+
+	float editFloat;
+
+	GameObject rayObject;
 	int events = 0;
 	Vector2 mouseLastPos;
 
@@ -18,13 +25,30 @@ public class LevelEditor : EditorWindow {
 
 	void OnGUI () {
 
-		if (GUILayout.Button (editMode)) {
+		if (GUILayout.Button (sceneString)) {
+			sceneString = "Scene / ON";			sceneBool = true;
+			waterString = "Water / OFF";		waterBool = false;
+			nutrientString = "Nutrient / OFF";	nutrientBool = false;
 		}
-
-		if (GUILayout.Button (drawMode)) {
+		if (GUILayout.Button (waterString)) {
+			sceneString = "Scene / OFF";		sceneBool = false;
+			waterString = "Water / ON";			waterBool = true;
+			nutrientString = "Nutrient / OFF";	nutrientBool = false;
 		}
+		if (GUILayout.Button (nutrientString)) {
+			sceneString = "Scene / OFF";		sceneBool = false;
+			waterString = "Water / OFF";		waterBool = false;
+			nutrientString = "Nutrient / ON";	nutrientBool = true;
+		}
+		if (GUILayout.Button ("+10 Edit Power")) {
+			editFloat += 10;
+		}
+		if (GUILayout.Button ("-10 Edit Power")) {
+			editFloat -= 10;
+		}
+		GUILayout.Label ("Editing Power: " + editFloat);
 
-		GUILayout.Label (rayObject);
+		GUILayout.Label ("Water: " + rayObject.GetComponent<Resourse>().water + " Nutrients: " + rayObject.GetComponent<Resourse>().nutrients);
 	}
 
 	void OnEnable () {
@@ -36,6 +60,14 @@ public class LevelEditor : EditorWindow {
 	}
 
 	public void OnSceneGUI (SceneView sceneview) {
+
+		if (!sceneBool) {
+			for (int i = 0; i < GameObject.Find("GM").GetComponent<Grid>().heksagons.Length; i++) {
+				if (GameObject.Find("GM").GetComponent<Grid>().heksagons[i] != null) {
+				GameObject.Find("GM").GetComponent<Grid>().heksagons[i].GetComponent<HexVisualizer>().VisUpdate();
+				}
+			}
+		}
 		mouseLastPos = Event.current.mousePosition;
 
 		if (Camera.current) {
@@ -43,15 +75,24 @@ public class LevelEditor : EditorWindow {
 			RaycastHit hitPoint;
 			
 			if (Physics.Raycast (camRay, out hitPoint, 100f)) {
-				rayObject = hitPoint.collider.name;
+
 				Repaint();
 				Resourse r = hitPoint.collider.gameObject.GetComponent<Resourse>();
 				if (r) {
-					r.water = 10;
+					rayObject = hitPoint.collider.gameObject;
+
+					if (Event.current.Equals(Event.KeyboardEvent("E")) && !sceneBool) {
+						if (waterBool) {
+							r.water = editFloat;
+						}
+						if (nutrientBool) {
+							r.nutrients = editFloat;
+						}
+					}
 				}
 			}
 		}
-		events++; Debug.Log(mouseLastPos);
+		events++; //Debug.Log(mouseLastPos);
 		if (Event.current.type == EventType.MouseMove) {
 			Event.current.Use ();
 		}

@@ -34,8 +34,8 @@ public class Resourse : MonoBehaviour {
 		childCount = gameObject.transform.childCount;
 
 		//Sets random amount of recourses to the hex
-		nutrients = Random.Range (nutrientMin, nutrientMax);
-		water = Random.Range (waterMin, waterMax);
+//		nutrients = Random.Range (nutrientMin, nutrientMax);
+//		water = Random.Range (waterMin, waterMax);
 
 	}
 
