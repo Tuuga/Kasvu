@@ -7,6 +7,9 @@ public class HexVisualizer : MonoBehaviour {
 	public GameObject nutrientFlower;
 	public GameObject resFlowerHolder;
 
+	GameObject[] wflowers;
+	GameObject[] nflowers;
+
 	float timer;
 	public float timeToUpdate;
 
@@ -21,24 +24,26 @@ public class HexVisualizer : MonoBehaviour {
 	void Start () {
 
 		GetComponent<Renderer>().material.shaderKeywords = new string[1]{"_NORMALMAP"};
+
 		VisUpdate();
 		SpawnResourceFlowers ();
+		ResFlowerUpdate ();
 	}
 
 	void Update () {
-
-		if (Input.GetKeyDown (KeyCode.G)) {
-			ResourceWithLife();
-		}
 
 		timer += Time.deltaTime;
 		if (timer > timeToUpdate){
 			timer -= timeToUpdate;
 			VisUpdate();
+			ResFlowerUpdate();
 		}
 	}
 
 	void SpawnResourceFlowers () {
+
+		wflowers = new GameObject[5];
+		nflowers = new GameObject[5];
 
 		//Water on the left
 		float[] wX = {-0.6f,-0.5f,-0.4f,-0.3f,-0.2f};
@@ -48,51 +53,38 @@ public class HexVisualizer : MonoBehaviour {
 		float[] nX = {0.6f,0.5f,0.4f,0.3f,0.2f};
 		float[] nZ = {0,-0.2f,0.15f,-0.2f,0f};
 
+		GameObject holder = (GameObject)Instantiate (resFlowerHolder, transform.position, new Quaternion (0,0,0,0));
+		holder.transform.parent = transform;
+
 		for (int i = 0; i < 5; i++) {
 
-			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i],0.3f,wZ[i]) , new Quaternion (0, 0, 0, 0));
-			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i],0.3f,nZ[i]) , new Quaternion (0, 0, 0, 0));
+			float rF = Random.Range(-0.08f, 0.08f);
+																										//Y still as "Magic number"
+			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i]+rF,0.3f,wZ[i]+rF) , new Quaternion (0,0,0,0));
+			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i]+rF,0.3f,nZ[i]+rF) , new Quaternion (0,0,0,0));
 
+			wFlowerIns.transform.parent = holder.transform; wFlowerIns.SetActive (false);
+			nFlowerIns.transform.parent = holder.transform; nFlowerIns.SetActive (false);
+
+			wflowers[i] = wFlowerIns;
+			nflowers[i] = nFlowerIns;
 		}
 	}
 
+	void ResFlowerUpdate () {
 
-
-
-
-
-
-	void ResourceWithLife () {
-
-		float rX = 0;
-//		float rY = 0;
-		float rZ = 0;
-
-		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 25 + 1;
-		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 25 + 1;
-
-		for (int i = 0; i < nutrientIndex; i++) {
-			rX = Random.Range (0f,0.4f);
-//			rY = Random.Range (0f,1f);
-			rZ = Random.Range (-0.2f,0.2f);
-
-			if (gameObject.transform.FindChild("Life") != null) {
-				GameObject nutrientFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
-				nutrientFlowerIns.transform.parent = gameObject.transform;
-			}
-		}
+		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 20;
+		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 20;
 
 		for (int i = 0; i < waterIndex; i++) {
-			rX = Random.Range (-0.4f,0f);
-//			rY = Random.Range (0f,1f);
-			rZ = Random.Range (-0.2f,0.2f);
-
-			if (gameObject.transform.FindChild("Life") != null) {
-				GameObject waterFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
-				waterFlowerIns.transform.parent = gameObject.transform;
-			}
+			wflowers[i].SetActive(true);
+		}
+		for (int i = 0; i < nutrientIndex; i++) {
+			nflowers[i].SetActive(true);
 		}
 	}
+
+
 
 	public void VisUpdate () {
 
@@ -104,6 +96,6 @@ public class HexVisualizer : MonoBehaviour {
 		GetComponent<Renderer> ().sharedMaterial.SetTexture ("_BumpMap", normalMap);
 //		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
 
-		GetComponent<Renderer>().material.color = waterColor [waterIndex];
+		GetComponent<Renderer>().sharedMaterial.color = waterColor [waterIndex];
 	}
 }
