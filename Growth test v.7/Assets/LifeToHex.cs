@@ -8,6 +8,7 @@ public class LifeToHex : MonoBehaviour {
 	float numberOfLife;
 	float lifeToHexRatio;
 	GameObject[] hexes;
+	public float secondsToUpdate;
 	public float lifeToWin;
 	public Text lifeRatio;
 
@@ -22,14 +23,16 @@ public class LifeToHex : MonoBehaviour {
 
 	void Update () {
 		timer += Time.deltaTime;
-		if (timer > 1f) {
+		if (timer > secondsToUpdate) {
 			CountLifeToHexRatio();
 			timer = 0;
 		}
+
 		if (lifeToHexRatio >= lifeToWin) {
 			WinState();
 		}
 	}
+
 	void WinState () {
 
 		if (!won) {
@@ -56,6 +59,5 @@ public class LifeToHex : MonoBehaviour {
 
 		lifeToHexRatio = numberOfLife / numberOfHexes * 100;
 		lifeRatio.text = lifeToHexRatio + "%";
-
 	}
 }
