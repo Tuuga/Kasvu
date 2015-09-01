@@ -21,7 +21,7 @@ public class UIManagerScript : MonoBehaviour {
 	[HideInInspector]
 	public string nutrientColorRGBA;
 
-	bool highlightToggle = false;
+	bool highlightToggle = true;
 	bool toggle;
 
 	void Start () {
@@ -42,6 +42,7 @@ public class UIManagerScript : MonoBehaviour {
 			}
 		}
 		highlights = GameObject.FindGameObjectsWithTag ("Highlight");
+		HexHighlight ();
 	}
 
 	void Update () {
