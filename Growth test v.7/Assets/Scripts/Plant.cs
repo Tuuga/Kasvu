@@ -27,6 +27,8 @@ public class Plant : MonoBehaviour {
 	public int seedMax = 2;
 	public int seedMin = 0;
 	public int seedIndex = 0;
+
+	public float scaleOffSetPercent = 10f;
 	
 	//
 	
@@ -310,11 +312,13 @@ public class Plant : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		transform.rotation = Quaternion.Euler (0, Random.Range (0f, 360f), 0);
+		transform.localScale = transform.localScale * (100 + Random.Range((0 - scaleOffSetPercent), scaleOffSetPercent)) / 100;
 		myIndex = allThePlants.Count;
 		allThePlants.Add (this);
 		requiredTime = requiredTimeToGrow;
 		parentHex = transform.parent.gameObject;
-		anim = GetComponent<Animator> ();
+		anim = GetComponentInChildren<Animator> ();
 		xPos = parentHex.GetComponent<Resourse> ().xPos;
 		yPos = parentHex.GetComponent<Resourse> ().yPos;
 		
