@@ -5,6 +5,7 @@ public class HexVisualizer : MonoBehaviour {
 
 	public GameObject waterFlower;
 	public GameObject nutrientFlower;
+	public GameObject resFlowerHolder;
 
 	float timer;
 	public float timeToUpdate;
@@ -21,6 +22,7 @@ public class HexVisualizer : MonoBehaviour {
 
 		GetComponent<Renderer>().material.shaderKeywords = new string[1]{"_NORMALMAP"};
 		VisUpdate();
+		SpawnResourceFlowers ();
 	}
 
 	void Update () {
@@ -35,6 +37,30 @@ public class HexVisualizer : MonoBehaviour {
 			VisUpdate();
 		}
 	}
+
+	void SpawnResourceFlowers () {
+
+		//Water on the left
+		float[] wX = {-0.6f,-0.5f,-0.4f,-0.3f,-0.2f};
+		float[] wZ = {0,-0.2f,0.15f,-0.2f,0f};
+
+		//Nutrient on the right
+		float[] nX = {0.6f,0.5f,0.4f,0.3f,0.2f};
+		float[] nZ = {0,-0.2f,0.15f,-0.2f,0f};
+
+		for (int i = 0; i < 5; i++) {
+
+			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i],0.3f,wZ[i]) , new Quaternion (0, 0, 0, 0));
+			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i],0.3f,nZ[i]) , new Quaternion (0, 0, 0, 0));
+
+		}
+	}
+
+
+
+
+
+
 
 	void ResourceWithLife () {
 
