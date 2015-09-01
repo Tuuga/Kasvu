@@ -51,16 +51,19 @@ public class HexVisualizer : MonoBehaviour {
 			rZ = Random.Range (-0.2f,0.2f);
 
 			if (gameObject.transform.FindChild("Life") != null) {
-				Instantiate (nutrientFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				GameObject nutrientFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				nutrientFlowerIns.transform.parent = gameObject.transform;
 			}
 		}
+
 		for (int i = 0; i < waterIndex; i++) {
 			rX = Random.Range (-0.4f,0f);
 //			rY = Random.Range (0f,1f);
 			rZ = Random.Range (-0.2f,0.2f);
 
 			if (gameObject.transform.FindChild("Life") != null) {
-				Instantiate (waterFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				GameObject waterFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (rX,0.3f,rZ) , new Quaternion (0, 0, 0, 0));
+				waterFlowerIns.transform.parent = gameObject.transform;
 			}
 		}
 	}
@@ -71,8 +74,8 @@ public class HexVisualizer : MonoBehaviour {
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 25;
 
 
-		GetComponent<Renderer>().material.SetTexture ("_MainTex",nutrientTexture [nutrientIndex]);
-		GetComponent<Renderer> ().material.SetTexture ("_BumpMap", normalMap);
+		GetComponent<Renderer>().sharedMaterial.SetTexture ("_MainTex",nutrientTexture [nutrientIndex]);
+		GetComponent<Renderer> ().sharedMaterial.SetTexture ("_BumpMap", normalMap);
 //		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
 
 		GetComponent<Renderer>().material.color = waterColor [waterIndex];

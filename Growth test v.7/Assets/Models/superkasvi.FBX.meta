@@ -1,0 +1,442 @@
+fileFormatVersion: 2
+guid: 36a91434f9dc2ca4bad879a77a0156d5
+timeCreated: 1439272893
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: KukkaKesk
+    100002: "K\xE4rhi1"
+    100004: "K\xE4rhi2"
+    100006: "K\xE4rhi3"
+    100008: Lehti1
+    100010: Lehti2
+    100012: Lehti3
+    100014: Lehti4
+    100016: Lehti5
+    100018: Runko1
+    100020: //RootNode
+    100022: TLehti1
+    100024: TLehti2
+    100026: TLehti3
+    100028: TLehti4
+    100030: TLehti5
+    400000: KukkaKesk
+    400002: "K\xE4rhi1"
+    400004: "K\xE4rhi2"
+    400006: "K\xE4rhi3"
+    400008: Lehti1
+    400010: Lehti2
+    400012: Lehti3
+    400014: Lehti4
+    400016: Lehti5
+    400018: Runko1
+    400020: //RootNode
+    400022: TLehti1
+    400024: TLehti2
+    400026: TLehti3
+    400028: TLehti4
+    400030: TLehti5
+    2300000: KukkaKesk
+    2300002: "K\xE4rhi1"
+    2300004: "K\xE4rhi2"
+    2300006: "K\xE4rhi3"
+    2300008: Lehti1
+    2300010: Lehti2
+    2300012: Lehti3
+    2300014: Lehti4
+    2300016: Lehti5
+    2300018: Runko1
+    2300020: TLehti1
+    2300022: TLehti2
+    2300024: TLehti3
+    2300026: TLehti4
+    2300028: TLehti5
+    3300000: KukkaKesk
+    3300002: "K\xE4rhi1"
+    3300004: "K\xE4rhi2"
+    3300006: "K\xE4rhi3"
+    3300008: Lehti1
+    3300010: Lehti2
+    3300012: Lehti3
+    3300014: Lehti4
+    3300016: Lehti5
+    3300018: Runko1
+    3300020: TLehti1
+    3300022: TLehti2
+    3300024: TLehti3
+    3300026: TLehti4
+    3300028: TLehti5
+    4300000: Runko1
+    4300002: Lehti2
+    4300004: Lehti3
+    4300006: Lehti1
+    4300008: Lehti5
+    4300010: Lehti4
+    4300012: KukkaKesk
+    4300014: TLehti3
+    4300016: TLehti4
+    4300018: TLehti5
+    4300020: TLehti1
+    4300022: TLehti2
+    4300024: "K\xE4rhi1"
+    4300026: "K\xE4rhi3"
+    4300028: "K\xE4rhi2"
+    7400000: superkasvi_sprouting
+    7400002: superkasvi_growing
+    7400004: superkasvi_idle
+    7400006: superkasvi_budding
+    7400008: superkasvi_flower_idle
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: superkasvi_sprouting
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: KukkaKesk
+        weight: 1
+      - path: "K\xE4rhi1"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi2"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi3"
+        weight: 1
+      - path: Runko1
+        weight: 1
+      - path: Runko1/Lehti1
+        weight: 1
+      - path: Runko1/Lehti2
+        weight: 1
+      - path: Runko1/Lehti3
+        weight: 1
+      - path: Runko1/Lehti4
+        weight: 1
+      - path: Runko1/Lehti5
+        weight: 1
+      - path: TLehti1
+        weight: 1
+      - path: TLehti2
+        weight: 1
+      - path: TLehti3
+        weight: 1
+      - path: TLehti4
+        weight: 1
+      - path: TLehti5
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: superkasvi_growing
+      takeName: Take 001
+      firstFrame: 51
+      lastFrame: 150
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: KukkaKesk
+        weight: 1
+      - path: "K\xE4rhi1"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi2"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi3"
+        weight: 1
+      - path: Runko1
+        weight: 1
+      - path: Runko1/Lehti1
+        weight: 1
+      - path: Runko1/Lehti2
+        weight: 1
+      - path: Runko1/Lehti3
+        weight: 1
+      - path: Runko1/Lehti4
+        weight: 1
+      - path: Runko1/Lehti5
+        weight: 1
+      - path: TLehti1
+        weight: 1
+      - path: TLehti2
+        weight: 1
+      - path: TLehti3
+        weight: 1
+      - path: TLehti4
+        weight: 1
+      - path: TLehti5
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: superkasvi_idle
+      takeName: Take 001
+      firstFrame: 151
+      lastFrame: 250
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: KukkaKesk
+        weight: 1
+      - path: "K\xE4rhi1"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi2"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi3"
+        weight: 1
+      - path: Runko1
+        weight: 1
+      - path: Runko1/Lehti1
+        weight: 1
+      - path: Runko1/Lehti2
+        weight: 1
+      - path: Runko1/Lehti3
+        weight: 1
+      - path: Runko1/Lehti4
+        weight: 1
+      - path: Runko1/Lehti5
+        weight: 1
+      - path: TLehti1
+        weight: 1
+      - path: TLehti2
+        weight: 1
+      - path: TLehti3
+        weight: 1
+      - path: TLehti4
+        weight: 1
+      - path: TLehti5
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: superkasvi_budding
+      takeName: Take 001
+      firstFrame: 251
+      lastFrame: 350
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: KukkaKesk
+        weight: 1
+      - path: "K\xE4rhi1"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi2"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi3"
+        weight: 1
+      - path: Runko1
+        weight: 1
+      - path: Runko1/Lehti1
+        weight: 1
+      - path: Runko1/Lehti2
+        weight: 1
+      - path: Runko1/Lehti3
+        weight: 1
+      - path: Runko1/Lehti4
+        weight: 1
+      - path: Runko1/Lehti5
+        weight: 1
+      - path: TLehti1
+        weight: 1
+      - path: TLehti2
+        weight: 1
+      - path: TLehti3
+        weight: 1
+      - path: TLehti4
+        weight: 1
+      - path: TLehti5
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: superkasvi_flower_idle
+      takeName: Take 001
+      firstFrame: 351
+      lastFrame: 450
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: KukkaKesk
+        weight: 1
+      - path: "K\xE4rhi1"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi2"
+        weight: 1
+      - path: "K\xE4rhi1/K\xE4rhi3"
+        weight: 1
+      - path: Runko1
+        weight: 1
+      - path: Runko1/Lehti1
+        weight: 1
+      - path: Runko1/Lehti2
+        weight: 1
+      - path: Runko1/Lehti3
+        weight: 1
+      - path: Runko1/Lehti4
+        weight: 1
+      - path: Runko1/Lehti5
+        weight: 1
+      - path: TLehti1
+        weight: 1
+      - path: TLehti2
+        weight: 1
+      - path: TLehti3
+        weight: 1
+      - path: TLehti4
+        weight: 1
+      - path: TLehti5
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

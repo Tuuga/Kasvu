@@ -7,9 +7,9 @@ public class LevelEditor : EditorWindow {
 	string sceneString = "Scene";
 	string waterString = "Water";
 	string nutrientString = "Nutrient";
-	bool sceneBool;
-	bool waterBool;
-	bool nutrientBool;
+	bool sceneBool = true;
+	bool waterBool = false;
+	bool nutrientBool = false;
 
 	float editFloat;
 
