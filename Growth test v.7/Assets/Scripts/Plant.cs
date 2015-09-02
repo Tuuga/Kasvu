@@ -76,6 +76,11 @@ public class Plant : MonoBehaviour {
 	bool isDying;
 	int myIndex;
 	float resourceDeltaTime;
+
+	GameObject lushPlant;
+	GameObject wiltedPlant;
+	GameObject wiltedSapling;
+	ParticleSystem particle;
 	
 	void RemoveEmpty (List <GameObject> hexesTemp, bool onNutrients) {
 		if (onNutrients) {
@@ -209,9 +214,13 @@ public class Plant : MonoBehaviour {
 
 	public void CircleOfLife () {
 		if (isDying) {
+			if (lushPlant && lushPlant.activeSelf)
+				lushPlant.SetActive (false);
 			deathTimer += Time.deltaTime;
 			if (currentPlantState == plantState.sprouting) {
 				timer = requiredTime;
+				if (wiltedSapling && !wiltedSapling.activeSelf)
+					wiltedSapling.SetActive (true);
 			} else {
 				timer = 0;
 				if (currentPlantState == plantState.flower) {
@@ -219,6 +228,8 @@ public class Plant : MonoBehaviour {
 					currentPlantState = plantState.adult;
 					requiredTime = requiredTimeToFlower;
 				}
+				if (wiltedPlant && !wiltedPlant.activeSelf)
+					wiltedPlant.SetActive (true);
 				if (deathTimer >= requiredTimeToDie) {
 					List <GameObject> hexesTemp = HF.HexesList (waterReleaseRadius, xPos, yPos);
 					for (int i = 0; i < hexesTemp.Count; i ++) {
@@ -231,6 +242,12 @@ public class Plant : MonoBehaviour {
 				}
 			}
 		} else {
+			if (lushPlant && !lushPlant.activeSelf)
+				lushPlant.SetActive (true);
+			if (wiltedPlant && wiltedPlant.activeSelf)
+				wiltedPlant.SetActive (false);
+			if (wiltedSapling && wiltedSapling.activeSelf)
+				wiltedSapling.SetActive (false);
 			deathTimer = 0;
 			if (timer >= requiredTime) {
 				timer -= requiredTime;
@@ -241,8 +258,12 @@ public class Plant : MonoBehaviour {
 					currentPlantState = plantState.flower;
 					requiredTime = requiredTimeToSeed;
 				} else {
-					if (currentPlantState != plantState.sprouting)
+					if (currentPlantState != plantState.sprouting) {
 						GameInterFace.seeds[seedIndex] += Random.Range(seedMin, seedMax + 1);
+						if(particle)
+							particle.Play();
+
+					}
 					currentPlantState = plantState.adult;
 					requiredTime = requiredTimeToFlower;
 				}
@@ -321,6 +342,19 @@ public class Plant : MonoBehaviour {
 		anim = GetComponentInChildren<Animator> ();
 		xPos = parentHex.GetComponent<Resourse> ().xPos;
 		yPos = parentHex.GetComponent<Resourse> ().yPos;
+
+		lushPlant = transform.Find ("plant").gameObject;
+		wiltedPlant = transform.Find ("plant_wilted").gameObject;
+		wiltedSapling = transform.Find ("sapling_wilted").gameObject;
+		particle = transform.Find ("particle").gameObject.GetComponent<ParticleSystem>();
+
+
+		if (lushPlant)
+			lushPlant.SetActive (true);
+		if (wiltedPlant)
+			wiltedPlant.SetActive (false);
+		if (wiltedSapling)
+			wiltedSapling.SetActive (false);
 		
 		if (waterBindIsRelase)
 			waterRelease = waterBind;
