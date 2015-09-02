@@ -32,6 +32,8 @@ public class MouseScript : MonoBehaviour {
 	public bool drawMode;
 	bool setLife;
 
+	static public bool editorInUse = true;
+
 	void Start () {
 
 		axisGrid = GameObject.Find ("GM").GetComponent<Grid> ();
@@ -67,7 +69,7 @@ public class MouseScript : MonoBehaviour {
 
 			hexPos = hitPoint.collider.gameObject.transform.position;
 
-			if (lookMode == false && hitPoint.collider.gameObject.tag == "Hex") {
+			if (lookMode == false && hitPoint.collider.gameObject.tag == "Hex" && editorInUse) {
 
 				//Coloring the hexes
 				if (drawMode == true) {
@@ -120,16 +122,11 @@ public class MouseScript : MonoBehaviour {
 
 						plantIns.transform.rotation = plants[plantInUse].transform.rotation;
 						plantIns.name = "Plant";
-
-						float randomScale = Random.Range (0.5f , 1.5f);
-
-						Vector3 plantScale = new Vector3 (randomScale,randomScale,randomScale);
-						plantIns.transform.localScale = (plantScale);
 					}
 				}
 			}
 			//Removing plants
-			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && drawMode == false) {
+			if (hitPoint.collider.gameObject.tag == "Plant" && Input.GetKey (KeyCode.Mouse1) && drawMode == false && editorInUse) {
 				Destroy (hitPoint.collider.gameObject);
 			}
 		}
@@ -222,5 +219,7 @@ public class MouseScript : MonoBehaviour {
 				Debug.Log ("Nutrients");
 			}
 		}
+		if (Input.GetKeyDown (KeyCode.Space))
+			editorInUse = !editorInUse;
 	}
 }
