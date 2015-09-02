@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour {
 
+	Color bgColor;
+	GameObject dirLight;
 	public Transform center;
 
 	public Quaternion startRot;
@@ -13,6 +15,10 @@ public class CameraScript : MonoBehaviour {
 
 	public Vector2 scrollU;
 	public Vector2 scrollD;
+
+	void Start () {
+		dirLight = GameObject.Find ("Directional Light");
+	}
 
 	void Update () {
 
@@ -30,6 +36,10 @@ public class CameraScript : MonoBehaviour {
 		if (Input.mouseScrollDelta == scrollD) {
 			pos -= transform.forward * scrollVal * scrollSpeed;
 		}
+
+		bgColor = dirLight.GetComponent<Light>().color;
+
+		GetComponent<Camera>().backgroundColor = bgColor;
 
 		transform.position = pos;
 	}

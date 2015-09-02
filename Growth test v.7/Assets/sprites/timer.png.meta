@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: dbb3541f46473d2419cee1e46ad7f793
-timeCreated: 1441103398
-licenseType: Pro
+timeCreated: 1441197886
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: timer_0
@@ -62,8 +62,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 342
-        width: 170
+        y: 340
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -72,8 +72,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 170
-        y: 342
-        width: 170
+        y: 340
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -82,8 +82,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 340
-        y: 342
-        width: 170
+        y: 340
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -92,8 +92,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 172
-        width: 170
+        y: 170
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -102,8 +102,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 170
-        y: 172
-        width: 170
+        y: 170
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 340
-        y: 172
-        width: 170
+        y: 170
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -122,8 +122,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2
-        width: 170
+        y: 0
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 170
-        y: 2
-        width: 170
+        y: 0
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -142,8 +142,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 340
-        y: 2
-        width: 170
+        y: 0
+        width: 80
         height: 170
       alignment: 6
       pivot: {x: 0, y: 0}

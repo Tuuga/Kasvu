@@ -76,11 +76,7 @@ public class HexVisualizer : MonoBehaviour {
 		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 20;
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 20;
 
-		if (waterIndex != wflowers.Length) {
-			ResFlowerReset();
-		}
-
-		if (nutrientIndex != nflowers.Length) {
+		if (waterIndex != wflowers.Length || nutrientIndex != nflowers.Length) {
 			ResFlowerReset();
 		}
 
@@ -101,11 +97,11 @@ public class HexVisualizer : MonoBehaviour {
 		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 20;
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 20;
 
-		for (int i = 0; i < waterIndex; i++) {
-			wflowers [i].SetActive (false);
+		for (int i = 0; i < 5 - waterIndex; i++) {
+			wflowers [4-i].SetActive (false);
 		}
-		for (int i = 0; i < nutrientIndex; i++) {
-			nflowers [i].SetActive (false);
+		for (int i = 0; i < 5 - nutrientIndex; i++) {
+			nflowers [4-i].SetActive (false);
 		}
 	}
 
@@ -126,9 +122,9 @@ public class HexVisualizer : MonoBehaviour {
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 25;
 
 
-		GetComponent<Renderer>().sharedMaterial.SetTexture ("_MainTex",nutrientTexture [nutrientIndex]);
+		GetComponent<Renderer>().material.SetTexture ("_MainTex",nutrientTexture [nutrientIndex]);
 		GetComponent<Renderer> ().sharedMaterial.SetTexture ("_BumpMap", normalMap);
-//		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
+		GetComponent<Renderer> ().sharedMaterial.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
 
 		GetComponent<Renderer>().material.color = waterColor [waterIndex];
 	}

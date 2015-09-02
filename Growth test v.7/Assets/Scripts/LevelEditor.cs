@@ -19,8 +19,7 @@ public class LevelEditor : EditorWindow {
 
 	[MenuItem ("Level Editor/Editor Window")]
 	static void Init () {
-		LevelEditor window = 
-			(LevelEditor)EditorWindow.GetWindow(typeof(LevelEditor));
+		/*LevelEditor window = (LevelEditor)*/EditorWindow.GetWindow(typeof(LevelEditor));
 	}
 
 	void OnGUI () {
