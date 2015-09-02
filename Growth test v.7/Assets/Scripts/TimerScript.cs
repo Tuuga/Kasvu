@@ -5,33 +5,26 @@ using System.Collections;
 public class TimerScript : MonoBehaviour {
 	
 
-	public float timeToLose = 30;
-	float scaleByTime;
+	public float timeToLose;
+	float division;
+	int imageIndex;
 	float timer;
-	Text text;
-	GameObject timerImage;
-	
+	public Sprite[] timerImageList;
+
 	void Awake () {
-		timerImage = GameObject.Find("TimerImage");
 		timer = timeToLose;
-		text = GetComponent <Text> ();
 	}
 	
 	void Update () {
 		
 		timer -= Time.deltaTime;
-		float newTimer = Mathf.Round (timer);
-		scaleByTime = timer / timeToLose;
 
-		if (newTimer <= 0) {
-			timer = 0;
-			timerImage.SetActive(false);
-			text.text = "Time's Up!";
-		} else {
+		division = timeToLose / 8;
+		imageIndex = (int)Mathf.Round(timer / division);
+		imageIndex = Mathf.Clamp (imageIndex, 0, 8);
 
-		text.text = "Timer: " + newTimer;
-		timerImage.transform.localScale = new Vector3(timerImage.transform.localScale.x, scaleByTime);
+		GetComponent<Image>().sprite = timerImageList [imageIndex];
 
-		}
+
 	}
 }
