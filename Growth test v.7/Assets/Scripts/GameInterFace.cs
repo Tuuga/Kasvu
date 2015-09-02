@@ -1,9 +1,33 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameInterFace : MonoBehaviour {
 
-	public static int[] seeds = {1000000, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	public static int[] seeds = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+	public Text text0;
+	public int seed0 = 5;
+	public Text text1;
+	public int seed1 = 2;
+	public Text text2;
+	public int seed2 = 1;
+	public Text text3;
+	public int seed3 = 0;
+	public Text text4;
+	public int seed4 = 0;
+	public Text text5;
+	public int seed5 = 0;
+	public Text text6;
+	public int seed6 = 0;
+	public Text text7;
+	public int seed7 = 0;
+	public Text text8;
+	public int seed8 = 0;
+	public Text text9;
+	public int seed9 = 0;
+	
+	Text[] text = new Text[10];
 
 	bool hasPlant = false;
 	GameObject plant;
@@ -11,6 +35,29 @@ public class GameInterFace : MonoBehaviour {
 
 	GameObject currentReflection;
 	GameObject currentHex;
+
+	void Awake () {
+		text [0] = text0;
+		seeds [0] = seed0;
+		text [1] = text1;
+		seeds [1] = seed1;
+		text [2] = text2;
+		seeds [2] = seed2;
+		text [3] = text3;
+		seeds [3] = seed3;
+		text [4] = text4;
+		seeds [4] = seed4;
+		text [5] = text5;
+		seeds [5] = seed5;
+		text [6] = text6;
+		seeds [6] = seed6;
+		text [7] = text7;
+		seeds [7] = seed7;
+		text [8] = text8;
+		seeds [8] = seed8;
+		text [9] = text9;
+		seeds [9] = seed9;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -74,6 +121,10 @@ public class GameInterFace : MonoBehaviour {
 			}
 			plant = null;
 			reflection = null;
+		}
+		for (int i = 0; i < 10; i ++) {
+			if(text[i])
+				text[i].text = "" + seeds[i];
 		}
 	}
 }
