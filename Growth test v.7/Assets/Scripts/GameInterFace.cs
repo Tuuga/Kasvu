@@ -50,7 +50,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if (!currentReflection) {
+				if (!currentReflection && reflection) {
 					currentReflection = (GameObject)Instantiate (reflection);
 					currentReflection.transform.position = currentHex.transform.position;
 				}
