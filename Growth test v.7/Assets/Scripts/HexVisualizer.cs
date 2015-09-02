@@ -60,8 +60,8 @@ public class HexVisualizer : MonoBehaviour {
 
 			float rF = Random.Range(-0.08f, 0.08f);
 																										//Y still as "Magic number"
-			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i]+rF,0.3f,wZ[i]+rF) , new Quaternion (0,0,0,0));
-			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i]+rF,0.3f,nZ[i]+rF) , new Quaternion (0,0,0,0));
+			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i]+rF,0,wZ[i]+rF) , new Quaternion (0,0,0,0));
+			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i]+rF,0,nZ[i]+rF) , new Quaternion (0,0,0,0));
 
 			wFlowerIns.transform.parent = holder.transform; wFlowerIns.SetActive (false);
 			nFlowerIns.transform.parent = holder.transform; nFlowerIns.SetActive (false);
@@ -71,20 +71,54 @@ public class HexVisualizer : MonoBehaviour {
 		}
 	}
 
-	void ResFlowerUpdate () {
+	public void ResFlowerUpdate () {
+
+		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 20;
+		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 20;
+
+		if (waterIndex != wflowers.Length) {
+			ResFlowerReset();
+		}
+
+		if (nutrientIndex != nflowers.Length) {
+			ResFlowerReset();
+		}
+
+		if (transform.FindChild ("Life")) {
+			for (int i = 0; i < waterIndex; i++) {
+				wflowers [i].SetActive (true);
+			}
+			for (int i = 0; i < nutrientIndex; i++) {
+				nflowers [i].SetActive (true);
+			}
+		} else {
+			ResFlowerHardReset();
+		}
+	}
+
+	public void ResFlowerReset () {
 
 		nutrientIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().nutrients) / 20;
 		waterIndex = (int)Mathf.Round (gameObject.GetComponent<Resourse> ().water) / 20;
 
 		for (int i = 0; i < waterIndex; i++) {
-			wflowers[i].SetActive(true);
+			wflowers [i].SetActive (false);
 		}
 		for (int i = 0; i < nutrientIndex; i++) {
-			nflowers[i].SetActive(true);
+			nflowers [i].SetActive (false);
 		}
 	}
 
+	//"Debug"
+	void ResFlowerHardReset () {
 
+		for (int i = 0; i < wflowers.Length; i++) {
+			wflowers [i].SetActive (false);
+		}
+		for (int i = 0; i < nflowers.Length; i++) {
+			nflowers [i].SetActive (false);
+		}
+	}
 
 	public void VisUpdate () {
 
@@ -96,6 +130,6 @@ public class HexVisualizer : MonoBehaviour {
 		GetComponent<Renderer> ().sharedMaterial.SetTexture ("_BumpMap", normalMap);
 //		GetComponent<Renderer> ().material.SetFloat ("_BumpScale", normalMapLevel[nutrientIndex]);
 
-		GetComponent<Renderer>().sharedMaterial.color = waterColor [waterIndex];
+		GetComponent<Renderer>().material.color = waterColor [waterIndex];
 	}
 }

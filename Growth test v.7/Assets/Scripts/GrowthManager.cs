@@ -58,6 +58,7 @@ public class GrowthManager : MonoBehaviour {
 				}
 			}
 		}
+		parentHex.GetComponent<HexVisualizer> ().ResFlowerUpdate ();
 	}
 
 	public void DestroyLife (GameObject plant) {
@@ -78,5 +79,6 @@ public class GrowthManager : MonoBehaviour {
 				}
 			}
 		}
+		parentHex.GetComponent<HexVisualizer> ().ResFlowerReset ();
 	}
 }

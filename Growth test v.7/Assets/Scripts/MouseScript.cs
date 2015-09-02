@@ -117,7 +117,7 @@ public class MouseScript : MonoBehaviour {
 					//Setting plants
 					if (Input.GetKey (KeyCode.Mouse0) && plantInUse <= 4 && !hitPoint.collider.transform.FindChild ("Plant")) {
 
-						GameObject plantIns = (GameObject)Instantiate (plants[plantInUse], hexPos,plants[plantInUse].transform.rotation);
+						GameObject plantIns = (GameObject)Instantiate (plants[plantInUse], hexPos,new Quaternion (0,0,0,0));
 						plantIns.transform.parent = hitPoint.collider.gameObject.transform;
 
 						plantIns.transform.rotation = plants[plantInUse].transform.rotation;
