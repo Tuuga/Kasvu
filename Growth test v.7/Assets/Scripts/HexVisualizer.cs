@@ -46,12 +46,12 @@ public class HexVisualizer : MonoBehaviour {
 		nflowers = new GameObject[5];
 
 		//Water on the left
-		float[] wX = {-0.6f,-0.5f,-0.4f,-0.3f,-0.2f};
-		float[] wZ = {0,-0.2f,0.15f,-0.2f,0f};
+		float[] wX = {-0.2f,-0.55f,-0.7f,-0.55f,-0.2f};
+		float[] wZ = {-0.6f,-0.4f,0f,0.4f,0.6f}; //2D Y
 
 		//Nutrient on the right
-		float[] nX = {0.6f,0.5f,0.4f,0.3f,0.2f};
-		float[] nZ = {0,-0.2f,0.15f,-0.2f,0f};
+		float[] nX = {0.2f,0.55f,0.7f,0.55f,0.2f};
+		float[] nZ = {-0.6f,-0.4f,0f,0.4f,0.6f}; //2D Y
 
 		GameObject holder = (GameObject)Instantiate (resFlowerHolder, transform.position, new Quaternion (0,0,0,0));
 		holder.transform.parent = transform;
@@ -59,7 +59,7 @@ public class HexVisualizer : MonoBehaviour {
 		for (int i = 0; i < 5; i++) {
 
 			float rF = Random.Range(-0.08f, 0.08f);
-																										//Y still as "Magic number"
+
 			GameObject wFlowerIns = (GameObject)Instantiate (waterFlower, transform.position + new Vector3 (wX[i]+rF,0,wZ[i]+rF) , new Quaternion (0,0,0,0));
 			GameObject nFlowerIns = (GameObject)Instantiate (nutrientFlower, transform.position + new Vector3 (nX[i]+rF,0,nZ[i]+rF) , new Quaternion (0,0,0,0));
 
