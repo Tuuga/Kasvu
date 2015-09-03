@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class GameInterFace : MonoBehaviour {
 
@@ -26,12 +27,17 @@ public class GameInterFace : MonoBehaviour {
 	public int seed8 = 0;
 	public Text text9;
 	public int seed9 = 0;
+
+	public GameObject invalid;
+	public GameObject correct;
 	
 	Text[] text = new Text[10];
 
 	bool hasPlant = false;
 	GameObject plant;
 	GameObject reflection;
+	bool upRoot = false;
+	bool atCorrect = false;
 
 	GameObject currentReflection;
 	GameObject currentHex;
@@ -64,32 +70,69 @@ public class GameInterFace : MonoBehaviour {
 
 	}
 
+	public void UpRoot () {
+		if (!MouseScript.editorInUse) {
+			hasPlant = false;
+			upRoot = !upRoot;
+			if (reflection != correct && currentReflection && upRoot) {
+				Destroy (currentReflection);
+				currentReflection = null;
+			}
+			reflection = correct;
+			plant = null;
+		}
+	}
+
 	public void Plant (GameObject buttonPlant) {
-		if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0 && !MouseScript.editorInUse) {
-			hasPlant = true;
-			plant = buttonPlant;
+		if(!MouseScript.editorInUse) {
+			plant = null;
+			hasPlant = false;
+			upRoot = false;
+			if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0) {
+				hasPlant = true;
+				plant = buttonPlant;
+			}
 		}
 	}
 
 	public void Reflection (GameObject buttonReflection) {
-		if (reflection != buttonReflection && currentReflection) {
-			Destroy(currentReflection);
-			currentReflection = null;
+		if (!MouseScript.editorInUse) {
+			if (reflection != buttonReflection && currentReflection) {
+				Destroy (currentReflection);
+				currentReflection = null;
+			}
+			reflection = buttonReflection;
 		}
-		reflection = buttonReflection;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if ((MouseScript.editorInUse || !hasPlant) && currentReflection) {
+		if ((MouseScript.editorInUse || (!hasPlant && !upRoot)) && currentReflection) {
 			Destroy(currentReflection);
 			currentReflection = null;
+			if(!hasPlant && !upRoot) {
+				plant = null;
+				reflection = null;
+			}
 		}
+
+		bool unBlocked = true;
+	/*	Ray anotherCamRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit anotherHitPoint;
+		if (Physics.Raycast (anotherCamRay, out anotherHitPoint, Mathf.Infinity, 1 << 5)) {
+			if (anotherHitPoint.collider.tag == "BlockingUI") {
+				unBlocked = false;
+			}
+		}*/
+
+		if(EventSystem.current.IsPointerOverGameObject())
+		//	if(EventSystem.current.currentSelectedGameObject.tag == "BlockingUI")
+				unBlocked = false;
 
 		if (hasPlant && !Input.GetKey (KeyCode.LeftShift) && !MouseScript.editorInUse) {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint,  1 << 8) && !hitPoint.collider.transform.FindChild ("Plant")) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && unBlocked) {
 				GameObject compHex = hitPoint.collider.gameObject;
 				if (compHex != currentHex) {
 					currentHex = compHex;
@@ -97,9 +140,61 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if (!currentReflection && reflection) {
-					currentReflection = (GameObject)Instantiate (reflection);
-					currentReflection.transform.position = currentHex.transform.position;
+				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && reflection) || !atCorrect)) {
+					if (currentReflection) {
+						Destroy(currentReflection);
+						currentReflection = null;
+					}
+					if(reflection) {
+						currentReflection = (GameObject)Instantiate (reflection);
+						currentReflection.transform.position = currentHex.transform.position;
+					}
+					atCorrect = true;
+				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || atCorrect)) {
+					if (currentReflection) {
+						Destroy(currentReflection);
+						currentReflection = null;
+					}
+					if(invalid) {
+						currentReflection = (GameObject)Instantiate (invalid);
+						currentReflection.transform.position = currentHex.transform.position;
+					}
+					atCorrect = false;
+				}
+			}
+		}
+
+		if (upRoot && !Input.GetKey (KeyCode.LeftShift) && !MouseScript.editorInUse) {
+			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hitPoint;
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && unBlocked) {
+				GameObject compHex = hitPoint.collider.gameObject;
+				if (compHex != currentHex) {
+					currentHex = compHex;
+					if(currentReflection) {
+						currentReflection.transform.position = currentHex.transform.position;
+					}
+				}
+				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || !atCorrect)) {
+					if (currentReflection) {
+						Destroy(currentReflection);
+						currentReflection = null;
+					}
+					if(invalid) {
+						currentReflection = (GameObject)Instantiate (invalid);
+						currentReflection.transform.position = currentHex.transform.position;
+					}
+					atCorrect = true;
+				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && correct) || atCorrect)) {
+					if (currentReflection) {
+						Destroy(currentReflection);
+						currentReflection = null;
+					}
+					if(correct) {
+						currentReflection = (GameObject)Instantiate (correct);
+						currentReflection.transform.position = currentHex.transform.position;
+					}
+					atCorrect = false;
 				}
 			}
 		}
@@ -108,7 +203,7 @@ public class GameInterFace : MonoBehaviour {
 			hasPlant = false;
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint,  1 << 8) && !hitPoint.collider.transform.FindChild ("Plant")) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
 				GameObject plantIns = (GameObject)Instantiate (plant);
 				plantIns.transform.position = hitPoint.collider.gameObject.transform.position;
@@ -122,6 +217,21 @@ public class GameInterFace : MonoBehaviour {
 			plant = null;
 			reflection = null;
 		}
+
+		if (upRoot && !Input.GetKey (KeyCode.LeftShift) && Input.GetKey (KeyCode.Mouse0) && !MouseScript.editorInUse) {
+			upRoot = false;
+			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hitPoint;
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
+				Destroy(hitPoint.collider.transform.FindChild ("Plant"));
+			}
+			if (currentReflection) {
+				Destroy(currentReflection);
+				currentReflection = null;
+			}
+			reflection = null;
+		}
+
 		for (int i = 0; i < 10; i ++) {
 			if(text[i])
 				text[i].text = "" + seeds[i];
