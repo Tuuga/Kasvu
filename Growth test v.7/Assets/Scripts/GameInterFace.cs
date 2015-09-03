@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class GameInterFace : MonoBehaviour {
 
+	static bool first = true;
+
 	public static int[] seeds = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	public Text text0;
@@ -149,7 +151,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && reflection) || !atCorrect)) {
+				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && reflection) || !atCorrect) && (hitPoint.collider.transform.FindChild ("Life") || first)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -159,7 +161,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 					atCorrect = true;
-				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || atCorrect)) {
+				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || atCorrect) && !(hitPoint.collider.transform.FindChild ("Life") || first)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -212,8 +214,10 @@ public class GameInterFace : MonoBehaviour {
 			hasPlant = false;
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || first)) {
+				Debug.Log (first);
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
+				first = false;
 				GameObject plantIns = (GameObject)Instantiate (plant);
 				plantIns.transform.position = hitPoint.collider.gameObject.transform.position;
 				plantIns.transform.parent = hitPoint.collider.gameObject.transform;
