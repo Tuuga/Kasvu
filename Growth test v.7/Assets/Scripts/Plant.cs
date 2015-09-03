@@ -64,6 +64,8 @@ public class Plant : MonoBehaviour {
 	public int nutrientOverSaturationRadius = 0;
 	public float waterOverSaturation = 100;
 	public int waterOverSaturationRadius = 0;
+	
+	public GameObject seed;
 
 	plantState currentPlantState = plantState.sprouting;
 	float timer = 0;
@@ -260,6 +262,7 @@ public class Plant : MonoBehaviour {
 				} else {
 					if (currentPlantState != plantState.sprouting) {
 						GameInterFace.seeds[seedIndex] += Random.Range(seedMin, seedMax + 1);
+						SeedFling();
 						if(particle)
 							particle.Play();
 
@@ -384,6 +387,11 @@ public class Plant : MonoBehaviour {
 		}
 		if (nutrientRadiusNeedIsDrain)
 			nutrientNeedRadius = nutrientDrainRadius;
+	}
+
+	void SeedFling () {
+		GameObject seedIns = (GameObject)Instantiate (seed, particle.transform.position, particle.transform.rotation);
+		Destroy (seedIns, 2);
 	}
 
 	void OnDestroy () {
