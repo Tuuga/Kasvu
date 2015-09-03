@@ -23,5 +23,9 @@ public class TimerScript : MonoBehaviour {
 
 		GetComponent<Image>().sprite = timerImageList [imageIndex];
 
+		if (timer < 0) {
+			//Insert LooseState here!
+		}
+
 	}
 }
