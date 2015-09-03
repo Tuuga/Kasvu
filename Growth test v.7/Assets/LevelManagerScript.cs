@@ -9,36 +9,52 @@ public class LevelManagerScript : MonoBehaviour {
 	public float speed;
 	bool moveCameraRight;
 	bool moveCameraLeft;
+	bool startBool = false;
+
+	void Start () {
+		RightArrow ();
+	}
 
 	void Update () {
 
-		if (moveCameraRight) {
+		if (moveCameraRight && startBool) {
 			cameraObj.transform.localPosition += new Vector3 (1, 0, 0) * Time.deltaTime * speed;
-		}
-		if (Vector3.Distance (cameraObj.transform.position, mark[markInt].position) < 0.5f) {
-			moveCameraRight = false;
 		}
 		if (moveCameraLeft) {
 			cameraObj.transform.localPosition += new Vector3 (-1, 0, 0) * Time.deltaTime * speed;
 		}
-		if (Vector3.Distance (cameraObj.transform.position, mark[markInt].position) < 0.5f) {
+		if (moveCameraRight && !startBool) {
+			cameraObj.transform.localPosition += new Vector3 (1, 0, 0) * Time.deltaTime * 10;
+		}
+
+		if (Vector3.Distance (cameraObj.transform.position, mark [markInt].position) < 0.5f) {
+			moveCameraRight = false;
 			moveCameraLeft = false;
+			startBool = true;
 		}
 	}
 
+	public void StartLevel () {
+		Application.LoadLevel (markInt + 1);
+	}
+
 	public void LeftArrow () {
-		markInt = Mathf.Clamp (markInt - 1, 0, 5);
-		if (markInt < 5 && markInt > 0) {
-			moveCameraLeft = true;
+		if (!moveCameraLeft && !moveCameraRight) {
+			if (markInt <= 5 && markInt > 1) {
+				markInt = Mathf.Clamp (markInt - 1, 0, 5);
+				Debug.Log (markInt);
+				moveCameraLeft = true;
+			}
 		}
 	}
 
 	public void RightArrow () {
-		if (markInt < 5 && markInt >= 0) {
-			Debug.Log (markInt);
-			markInt = Mathf.Clamp (markInt + 1, 0, 5);
-			Debug.Log (markInt);
-			moveCameraRight = true;
+		if (!moveCameraLeft && !moveCameraRight) {
+			if (markInt < 5 && markInt >= 0) {
+				markInt = Mathf.Clamp (markInt + 1, 0, 5);
+				Debug.Log (markInt);
+				moveCameraRight = true;
+			}
 		}
 	}
 }
