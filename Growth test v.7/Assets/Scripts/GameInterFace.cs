@@ -42,10 +42,12 @@ public class GameInterFace : MonoBehaviour {
 	GameObject currentReflection;
 	GameObject currentHex;
 
-	bool showButtons = false;
+	bool showButtons = true;
 
 	public GameObject[] seedButtons;
 	public GameObject shovelButton;
+
+	public float separation = 160;
 
 	void Awake () {
 		text [0] = text0;
@@ -248,6 +250,30 @@ public class GameInterFace : MonoBehaviour {
 		if (showButtons != shovelButton.activeSelf) {
 			shovelButton.SetActive(showButtons);
 			seedButtons[0].transform.parent.gameObject.SetActive(showButtons);
+		}
+		int arrayLenght = 0;
+		for (int i = 0; i < seedButtons.Length; i ++) {
+			if(seeds[i] > 0) {
+				arrayLenght ++;
+				if(!seedButtons[i].activeSelf) {
+					seedButtons[i].SetActive(true);
+				}
+			} else {
+				if(seedButtons[i].activeSelf) {
+					seedButtons[i].SetActive(false);
+				}
+			}
+		}
+		int freeIndex = 0;
+		GameObject[] orderedButtons = new GameObject[arrayLenght];
+		for (int i = 0; i < seedButtons.Length; i ++) {
+			if(seedButtons[i].activeSelf) {
+				orderedButtons[freeIndex] = seedButtons[i];
+				freeIndex ++;
+			}
+		}
+		for (int i = 0; i < orderedButtons.Length; i ++) {
+			orderedButtons[i].GetComponent<RectTransform>().localPosition = new Vector3 (((i * separation) - ((separation * (orderedButtons.Length - 1)) / 2)), 0, 0);
 		}
 	}
 }
