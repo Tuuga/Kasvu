@@ -29,7 +29,9 @@ public class UIManagerScript : MonoBehaviour {
 		waterColorRGBA = "#" + waterColor.ToHexStringRGBA();
 		nutrientColorRGBA ="#" + nutrientColor.ToHexStringRGBA();
 
-		InputModeText = GameObject.Find ("ModeToggle").transform.FindChild("Text").gameObject;
+		if (GameObject.Find ("ModeToggle") != null) {
+			InputModeText = GameObject.Find ("ModeToggle").transform.FindChild ("Text").gameObject;
+		}
 		GM = GameObject.Find ("GM");
 
 		for (int i = 0; i < GM.GetComponent<Grid>().heksagons.Length; i++) {
@@ -43,6 +45,7 @@ public class UIManagerScript : MonoBehaviour {
 		}
 		highlights = GameObject.FindGameObjectsWithTag ("Highlight");
 		HexHighlight ();
+		ResUIToggle ();
 	}
 
 	void Update () {
@@ -51,11 +54,11 @@ public class UIManagerScript : MonoBehaviour {
 			HexHighlight();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4)) {
-			Text plantInUse = GameObject.Find("PlantInUse").GetComponent<Text>();
-			float plantNumber = GM.GetComponent<MouseScript>().plantInUse + 1;
-			plantInUse.text = "Plant " + plantNumber;
-		}
+//		if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4)) {
+//			Text plantInUse = GameObject.Find("PlantInUse").GetComponent<Text>();
+//			float plantNumber = GM.GetComponent<MouseScript>().plantInUse + 1;
+//			plantInUse.text = "Plant " + plantNumber;
+//		}
 	}
 
 	public void HexHighlight () {
@@ -77,12 +80,13 @@ public class UIManagerScript : MonoBehaviour {
 	}
 
 	public void ResUIToggle () {
-
+		if (GameObject.Find("ResUIToggle") != null) {
 		Text resUIButton = GameObject.Find("ResUIToggle").transform.FindChild("Text").GetComponent<Text>();
 		if (toggle) {
 			resUIButton.text = "Res UI ON";
 		}else {
 			resUIButton.text = "Res UI OFF";
+		}
 		}
 
 		if (resUIarray.Length < 1) {

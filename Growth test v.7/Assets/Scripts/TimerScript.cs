@@ -19,12 +19,9 @@ public class TimerScript : MonoBehaviour {
 		
 		timer -= Time.deltaTime;
 
-		division = timeToLose / 8;
-		imageIndex = (int)Mathf.Round(timer / division);
-		imageIndex = Mathf.Clamp (imageIndex, 0, 8);
+		imageIndex = Mathf.Clamp((int)Mathf.Round (timer / (timeToLose / 8)), 0, 8);
 
 		GetComponent<Image>().sprite = timerImageList [imageIndex];
-
 
 	}
 }
