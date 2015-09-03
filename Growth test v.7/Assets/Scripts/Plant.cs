@@ -401,6 +401,36 @@ public class Plant : MonoBehaviour {
 			for (int i = myIndex; i < allThePlants.Count; i++) {
 				allThePlants[i].DecreaseIndex();
 			}
+			if (currentPlantState != plantState.sprouting) {
+				List <GameObject> hexesTemp = HF.HexesList (waterReleaseRadius, xPos, yPos);
+				for (int i = 0; i < hexesTemp.Count; i ++) {
+					hexesTemp [i].GetComponent<Resourse> ().water += waterRelease;
+				}
+				hexesTemp = HF.HexesList (nutrientReleaseRadius, xPos, yPos);
+				for (int i = 0; i < hexesTemp.Count; i ++) {
+					hexesTemp [i].GetComponent<Resourse> ().nutrients += nutrientRelease;
+				}
+			}
+		}
+	}
+	
+	public bool CanGrow (int AX, int AY) {
+		float totalWaterBind = waterBind * HF.RadiusHexCount (waterBindRadius);
+		List <GameObject> hexesTemp = HF.HexesList (waterBindRadius, AX, AY);
+		float totalWater = 0;
+		for (int i = 0; i < hexesTemp.Count; i ++) {
+			totalWater += hexesTemp [i].GetComponent<Resourse> ().water;
+		}
+		float totalNutrientBind = nutrientBind * HF.RadiusHexCount (nutrientBindRadius);
+		hexesTemp = HF.HexesList (nutrientBindRadius, AX, AY);
+		float totalNutrients = 0;
+		for (int i = 0; i < hexesTemp.Count; i ++) {
+			totalNutrients += hexesTemp [i].GetComponent<Resourse> ().nutrients;
+		}
+		if (totalWater >= totalWaterBind && totalNutrients >= totalNutrientBind) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

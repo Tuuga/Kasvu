@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class GameInterFace : MonoBehaviour {
 
-	static bool first = true;
+	public static bool first = true;
 
 	public static int[] seeds = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -35,10 +35,10 @@ public class GameInterFace : MonoBehaviour {
 	
 	Text[] text = new Text[10];
 
-	bool hasPlant = false;
+	public static bool hasPlant = false;
 	GameObject plant;
 	GameObject reflection;
-	bool upRoot = false;
+	public static bool upRoot = false;
 	bool atCorrect = false;
 
 	GameObject currentReflection;
@@ -153,7 +153,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || first)) && ((!currentReflection && reflection) || !atCorrect)) {
+				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && reflection) || !atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -163,7 +163,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 					atCorrect = true;
-				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || first)) && ((!currentReflection && invalid) || atCorrect)) {
+				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && invalid) || atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -216,7 +216,7 @@ public class GameInterFace : MonoBehaviour {
 			hasPlant = false;
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || first)) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) {
 				Debug.Log (first);
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
 				first = false;
