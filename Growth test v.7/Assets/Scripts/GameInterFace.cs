@@ -217,7 +217,6 @@ public class GameInterFace : MonoBehaviour {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
 			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) {
-				Debug.Log (first);
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
 				first = false;
 				GameObject plantIns = (GameObject)Instantiate (plant);
