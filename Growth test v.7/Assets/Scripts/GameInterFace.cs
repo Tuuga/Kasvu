@@ -42,6 +42,11 @@ public class GameInterFace : MonoBehaviour {
 	GameObject currentReflection;
 	GameObject currentHex;
 
+	bool showButtons = false;
+
+	public GameObject[] seedButtons;
+	public GameObject shovelButton;
+
 	void Awake () {
 		text [0] = text0;
 		seeds [0] = seed0;
@@ -103,6 +108,10 @@ public class GameInterFace : MonoBehaviour {
 			}
 			reflection = buttonReflection;
 		}
+	}
+
+	public void ToggleButtons () {
+		showButtons = !showButtons;
 	}
 	
 	// Update is called once per frame
@@ -223,7 +232,7 @@ public class GameInterFace : MonoBehaviour {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
 			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
-				Destroy(hitPoint.collider.transform.FindChild ("Plant"));
+				Destroy(hitPoint.collider.transform.FindChild ("Plant").gameObject);
 			}
 			if (currentReflection) {
 				Destroy(currentReflection);
@@ -235,6 +244,10 @@ public class GameInterFace : MonoBehaviour {
 		for (int i = 0; i < 10; i ++) {
 			if(text[i])
 				text[i].text = "" + seeds[i];
+		}
+		if (showButtons != shovelButton.activeSelf) {
+			shovelButton.SetActive(showButtons);
+			seedButtons[0].transform.parent.gameObject.SetActive(showButtons);
 		}
 	}
 }
