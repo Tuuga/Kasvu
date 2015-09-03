@@ -27,7 +27,7 @@ public class LevelManagerScript : MonoBehaviour {
 			cameraObj.transform.localPosition += new Vector3 (1, 0, 0) * Time.deltaTime * 10;
 		}
 
-		if (Vector3.Distance (cameraObj.transform.position, mark [markInt].position) < 0.5f) {
+		if (Vector3.Distance (cameraObj.transform.position, mark [markInt].position) < 1f) {
 			moveCameraRight = false;
 			moveCameraLeft = false;
 			startBool = true;

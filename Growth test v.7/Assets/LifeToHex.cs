@@ -6,7 +6,7 @@ public class LifeToHex : MonoBehaviour {
 
 	float numberOfHexes;
 	float numberOfLife;
-	float lifeToHexRatio;
+	public float lifeToHexRatio;
 	GameObject[] hexes;
 	public float secondsToUpdate;
 	public float lifeToWin;
