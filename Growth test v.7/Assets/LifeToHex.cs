@@ -58,6 +58,6 @@ public class LifeToHex : MonoBehaviour {
 		}
 
 		lifeToHexRatio = numberOfLife / numberOfHexes * 100;
-		lifeRatio.text = lifeToHexRatio + "%";
+		lifeRatio.text = Mathf.Round(lifeToHexRatio) + "%";
 	}
 }
