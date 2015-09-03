@@ -1,11 +1,12 @@
 fileFormatVersion: 2
 guid: 3449873b59ea3bf43a199142767ed418
-timeCreated: 1441190619
+timeCreated: 1441277128
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: ui_super
     21300002: ui_perus
+    21300004: ui_papu
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -54,20 +55,30 @@ TextureImporter:
     - name: ui_super
       rect:
         serializedVersion: 2
-        x: 23
-        y: 238
-        width: 204
-        height: 254
+        x: 20
+        y: 252
+        width: 209
+        height: 260
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: ui_perus
       rect:
         serializedVersion: 2
-        x: 256
-        y: 232
-        width: 224
-        height: 252
+        x: 280
+        y: 256
+        width: 232
+        height: 256
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ui_papu
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 273
+        height: 254
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
