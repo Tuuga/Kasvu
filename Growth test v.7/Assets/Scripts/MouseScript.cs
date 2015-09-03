@@ -32,7 +32,7 @@ public class MouseScript : MonoBehaviour {
 	public bool drawMode;
 	bool setLife;
 
-	static public bool editorInUse = true;
+	static public bool editorInUse = false;
 
 	void Start () {
 

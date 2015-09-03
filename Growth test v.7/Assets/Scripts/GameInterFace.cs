@@ -44,7 +44,7 @@ public class GameInterFace : MonoBehaviour {
 	GameObject currentReflection;
 	GameObject currentHex;
 
-	bool showButtons = true;
+	bool showButtons = false;
 
 	public GameObject[] seedButtons;
 	public GameObject shovelButton;
@@ -97,7 +97,7 @@ public class GameInterFace : MonoBehaviour {
 			plant = null;
 			hasPlant = false;
 			upRoot = false;
-			if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0) {
+			if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0 && (buttonPlant.name != "Plant 2") || !first) {
 				hasPlant = true;
 				plant = buttonPlant;
 			}
@@ -153,7 +153,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && reflection) || !atCorrect) && (hitPoint.collider.transform.FindChild ("Life") || first)) {
+				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || first)) && ((!currentReflection && reflection) || !atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -163,7 +163,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 					atCorrect = true;
-				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || atCorrect) && !(hitPoint.collider.transform.FindChild ("Life") || first)) {
+				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || first)) && ((!currentReflection && invalid) || atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
