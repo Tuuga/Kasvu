@@ -391,6 +391,7 @@ public class Plant : MonoBehaviour {
 
 	void SeedFling () {
 		GameObject seedIns = (GameObject)Instantiate (seed, particle.transform.position, particle.transform.rotation);
+		seedIns.GetComponent<SeedScript> ().isMoving = true;
 		Destroy (seedIns, 2);
 	}
 
