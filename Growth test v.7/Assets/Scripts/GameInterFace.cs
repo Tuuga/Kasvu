@@ -76,7 +76,7 @@ public class GameInterFace : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		first = true;
 	}
 
 	public void UpRoot () {
@@ -118,8 +118,13 @@ public class GameInterFace : MonoBehaviour {
 		showButtons = !showButtons;
 	}
 	
-	// Update is called once per frame
+	// Update is called once per app
 	void Update () {
+		if (Input.GetKey (KeyCode.LeftShift) && Input.GetKey (KeyCode.Space)) {
+			Application.LoadLevel(0);
+		}
+
+
 		if ((MouseScript.editorInUse || (!hasPlant && !upRoot)) && currentReflection) {
 			Destroy(currentReflection);
 			currentReflection = null;
@@ -248,6 +253,8 @@ public class GameInterFace : MonoBehaviour {
 		}
 
 		for (int i = 0; i < 10; i ++) {
+			if(seeds[i] > 99)
+				seeds[i] = 99;
 			if(text[i])
 				text[i].text = "" + seeds[i];
 		}
