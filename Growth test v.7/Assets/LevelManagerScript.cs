@@ -27,7 +27,7 @@ public class LevelManagerScript : MonoBehaviour {
 			cameraObj.transform.localPosition += new Vector3 (1, 0, 0) * Time.deltaTime * 10;
 		}
 
-		if (Vector3.Distance (cameraObj.transform.position, mark [markInt].position) < 0.5f) {
+		if (Vector3.Distance (cameraObj.transform.position, mark [markInt].position) < 1f) {
 			moveCameraRight = false;
 			moveCameraLeft = false;
 			startBool = true;
@@ -42,7 +42,6 @@ public class LevelManagerScript : MonoBehaviour {
 		if (!moveCameraLeft && !moveCameraRight) {
 			if (markInt <= 5 && markInt > 1) {
 				markInt = Mathf.Clamp (markInt - 1, 0, 5);
-				Debug.Log (markInt);
 				moveCameraLeft = true;
 			}
 		}
@@ -52,7 +51,6 @@ public class LevelManagerScript : MonoBehaviour {
 		if (!moveCameraLeft && !moveCameraRight) {
 			if (markInt < 5 && markInt >= 0) {
 				markInt = Mathf.Clamp (markInt + 1, 0, 5);
-				Debug.Log (markInt);
 				moveCameraRight = true;
 			}
 		}

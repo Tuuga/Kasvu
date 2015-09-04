@@ -32,7 +32,7 @@ public class MouseScript : MonoBehaviour {
 	public bool drawMode;
 	bool setLife;
 
-	static public bool editorInUse = true;
+	static public bool editorInUse = false;
 
 	void Start () {
 
@@ -50,7 +50,7 @@ public class MouseScript : MonoBehaviour {
 
 		//LookMode
 		//Panning
-		if (Input.GetKey (KeyCode.LeftShift)) {
+		if ((!GameInterFace.hasPlant && !GameInterFace.upRoot) || Input.GetKey (KeyCode.LeftShift)) {
 			lookMode = true;
 
 			if (Input.GetKey (KeyCode.Mouse0)) {

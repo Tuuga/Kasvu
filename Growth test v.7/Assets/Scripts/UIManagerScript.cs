@@ -50,9 +50,9 @@ public class UIManagerScript : MonoBehaviour {
 
 	void Update () {
 
-		if (Input.GetKeyDown (KeyCode.Q)) {
+	/*	if (Input.GetKeyDown (KeyCode.Q)) {
 			HexHighlight();
-		}
+		} */
 
 //		if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4)) {
 //			Text plantInUse = GameObject.Find("PlantInUse").GetComponent<Text>();

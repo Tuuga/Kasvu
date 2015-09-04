@@ -6,7 +6,7 @@ public class LifeToHex : MonoBehaviour {
 
 	float numberOfHexes;
 	float numberOfLife;
-	float lifeToHexRatio;
+	public float lifeToHexRatio;
 	GameObject[] hexes;
 	public float secondsToUpdate;
 	public float lifeToWin;
@@ -58,6 +58,6 @@ public class LifeToHex : MonoBehaviour {
 		}
 
 		lifeToHexRatio = numberOfLife / numberOfHexes * 100;
-		lifeRatio.text = lifeToHexRatio + "%";
+		lifeRatio.text = Mathf.Round(lifeToHexRatio) + "%";
 	}
 }

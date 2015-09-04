@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class GameInterFace : MonoBehaviour {
 
+	public static bool first = true;
+
 	public static int[] seeds = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	public Text text0;
@@ -33,14 +35,21 @@ public class GameInterFace : MonoBehaviour {
 	
 	Text[] text = new Text[10];
 
-	bool hasPlant = false;
+	public static bool hasPlant = false;
 	GameObject plant;
 	GameObject reflection;
-	bool upRoot = false;
+	public static bool upRoot = false;
 	bool atCorrect = false;
 
 	GameObject currentReflection;
 	GameObject currentHex;
+
+	bool showButtons = false;
+
+	public GameObject[] seedButtons;
+	public GameObject shovelButton;
+
+	public float separation = 160;
 
 	void Awake () {
 		text [0] = text0;
@@ -88,7 +97,7 @@ public class GameInterFace : MonoBehaviour {
 			plant = null;
 			hasPlant = false;
 			upRoot = false;
-			if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0) {
+			if (seeds [buttonPlant.GetComponent<Plant> ().seedIndex] > 0 && (buttonPlant.name != "Plant 2") || !first) {
 				hasPlant = true;
 				plant = buttonPlant;
 			}
@@ -103,6 +112,10 @@ public class GameInterFace : MonoBehaviour {
 			}
 			reflection = buttonReflection;
 		}
+	}
+
+	public void ToggleButtons () {
+		showButtons = !showButtons;
 	}
 	
 	// Update is called once per frame
@@ -140,7 +153,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if (!currentHex.transform.FindChild ("Plant") && ((!currentReflection && reflection) || !atCorrect)) {
+				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && reflection) || !atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -150,7 +163,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 					atCorrect = true;
-				} else if (currentHex.transform.FindChild ("Plant") && ((!currentReflection && invalid) || atCorrect)) {
+				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && invalid) || atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -203,8 +216,9 @@ public class GameInterFace : MonoBehaviour {
 			hasPlant = false;
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) {
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
+				first = false;
 				GameObject plantIns = (GameObject)Instantiate (plant);
 				plantIns.transform.position = hitPoint.collider.gameObject.transform.position;
 				plantIns.transform.parent = hitPoint.collider.gameObject.transform;
@@ -223,7 +237,7 @@ public class GameInterFace : MonoBehaviour {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
 			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && hitPoint.collider.transform.FindChild ("Plant") && unBlocked) {
-				Destroy(hitPoint.collider.transform.FindChild ("Plant"));
+				Destroy(hitPoint.collider.transform.FindChild ("Plant").gameObject);
 			}
 			if (currentReflection) {
 				Destroy(currentReflection);
@@ -235,6 +249,34 @@ public class GameInterFace : MonoBehaviour {
 		for (int i = 0; i < 10; i ++) {
 			if(text[i])
 				text[i].text = "" + seeds[i];
+		}
+		if (showButtons != shovelButton.activeSelf) {
+			shovelButton.SetActive(showButtons);
+			seedButtons[0].transform.parent.gameObject.SetActive(showButtons);
+		}
+		int arrayLenght = 0;
+		for (int i = 0; i < seedButtons.Length; i ++) {
+			if(seeds[i] > 0) {
+				arrayLenght ++;
+				if(!seedButtons[i].activeSelf) {
+					seedButtons[i].SetActive(true);
+				}
+			} else {
+				if(seedButtons[i].activeSelf) {
+					seedButtons[i].SetActive(false);
+				}
+			}
+		}
+		int freeIndex = 0;
+		GameObject[] orderedButtons = new GameObject[arrayLenght];
+		for (int i = 0; i < seedButtons.Length; i ++) {
+			if(seedButtons[i].activeSelf) {
+				orderedButtons[freeIndex] = seedButtons[i];
+				freeIndex ++;
+			}
+		}
+		for (int i = 0; i < orderedButtons.Length; i ++) {
+			orderedButtons[i].GetComponent<RectTransform>().localPosition = new Vector3 (((i * separation) - ((separation * (orderedButtons.Length - 1)) / 2)), 0, 0);
 		}
 	}
 }
