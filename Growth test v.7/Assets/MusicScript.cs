@@ -5,17 +5,23 @@ public class MusicScript : MonoBehaviour {
 
 	public GameObject gm;
 
-	GameObject wind;
-	GameObject life;
-	GameObject music;
+	public float volume;
+
+	public float windPercent = 15;
+	public float lifePercent = 10;
+	public float musicPercent = 50;
+
+	public float fade1;
+	public float fade2;
+	public float fade3;
+
+	public GameObject wind;
+	public GameObject life;
+	public GameObject music;
 
 	float lifeRatio;
 
 	void Start () {
-
-		wind = transform.FindChild("wind").gameObject;
-		life = transform.FindChild ("life").gameObject;
-		music = transform.FindChild ("music").gameObject;
 
 	}
 
@@ -23,22 +29,40 @@ public class MusicScript : MonoBehaviour {
 
 		lifeRatio = (float)gm.GetComponent<LifeToHex> ().lifeToHexRatio;
 
-		if (lifeRatio < 10) {
-			wind.GetComponent<AudioSource>().volume = 1;
-			life.GetComponent<AudioSource>().volume = 0;
-			music.GetComponent<AudioSource>().volume = 0;
+		if (lifeRatio < windPercent) {
+			if (fade1 < 30) {
+				fade1 += Time.deltaTime;
+			}
+			wind.GetComponent<AudioSource> ().volume = (fade1 / 30) * volume;
+		} else {
+			if (fade1 > 0) {
+				fade1 -= Time.deltaTime;
+			}
+			wind.GetComponent<AudioSource> ().volume = (fade1 / 30) * volume;
 		}
 
-		if (lifeRatio > 10 && lifeRatio < 50) {
-			wind.GetComponent<AudioSource>().volume = 0;
-			life.GetComponent<AudioSource>().volume = 1;
-			music.GetComponent<AudioSource>().volume = 0;
+		if (lifeRatio > lifePercent && lifeRatio < musicPercent) {
+			if (fade2 < 30) {
+				fade2 += Time.deltaTime;
+			}
+			life.GetComponent<AudioSource> ().volume = (fade2 / 30) * volume;
+		} else {
+			if (fade2 > 10) {
+				fade2 -= Time.deltaTime;
+			}
+			life.GetComponent<AudioSource> ().volume = (fade2 / 30) * volume;
 		}
 
-		if (lifeRatio > 50) {
-			wind.GetComponent<AudioSource>().volume = 0;
-			life.GetComponent<AudioSource>().volume = 0;
-			music.GetComponent<AudioSource>().volume = 1;
+		if (lifeRatio > musicPercent) {
+			if (fade3 < 30) {
+				fade3 += Time.deltaTime;
+			}
+			music.GetComponent<AudioSource> ().volume = (fade3 / 30) * volume;
+		} else {
+			if (fade3 > 0) {
+				fade3 -= Time.deltaTime;
+			}
+			music.GetComponent<AudioSource> ().volume = (fade3 / 30) * volume;
 		}
 	}
 }

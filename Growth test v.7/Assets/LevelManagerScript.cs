@@ -42,7 +42,6 @@ public class LevelManagerScript : MonoBehaviour {
 		if (!moveCameraLeft && !moveCameraRight) {
 			if (markInt <= 5 && markInt > 1) {
 				markInt = Mathf.Clamp (markInt - 1, 0, 5);
-				Debug.Log (markInt);
 				moveCameraLeft = true;
 			}
 		}
@@ -52,7 +51,6 @@ public class LevelManagerScript : MonoBehaviour {
 		if (!moveCameraLeft && !moveCameraRight) {
 			if (markInt < 5 && markInt >= 0) {
 				markInt = Mathf.Clamp (markInt + 1, 0, 5);
-				Debug.Log (markInt);
 				moveCameraRight = true;
 			}
 		}
