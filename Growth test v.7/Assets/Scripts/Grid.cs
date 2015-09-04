@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 
 [ExecuteInEditMode]
@@ -21,11 +23,13 @@ public class Grid: MonoBehaviour
 
 	public GameObject[] heksagons;
 
+	#if UNITY_EDITOR
 	[MenuItem ("Grid-O-Matic/One Grid please!")]
 	static void GenerateGrid() {
 		GameObject.Find ("GM").GetComponent<Grid> ().setSizes();
 		GameObject.Find ("GM").GetComponent<Grid> ().createGrid();
 	}
+	#endif
 
 	void Awake () {
 		HF.Hexes = heksagons;
