@@ -153,7 +153,8 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 				}
-				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && reflection) || !atCorrect)) {
+				bool FUCK = plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos);
+				if ((!currentHex.transform.FindChild ("Plant") && (currentHex.transform.FindChild ("Life") || first) && FUCK) && ((!currentReflection && reflection) || !atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -163,7 +164,7 @@ public class GameInterFace : MonoBehaviour {
 						currentReflection.transform.position = currentHex.transform.position;
 					}
 					atCorrect = true;
-				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) && ((!currentReflection && invalid) || atCorrect)) {
+				} else if ((currentHex.transform.FindChild ("Plant") || !(currentHex.transform.FindChild ("Life") || first) || !FUCK) && ((!currentReflection && invalid) || atCorrect)) {
 					if (currentReflection) {
 						Destroy(currentReflection);
 						currentReflection = null;
@@ -216,7 +217,7 @@ public class GameInterFace : MonoBehaviour {
 			hasPlant = false;
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitPoint;
-			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || (first && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)))) {
+			if (Physics.Raycast (camRay, out hitPoint, Mathf.Infinity, 1 << 8) && !hitPoint.collider.transform.FindChild ("Plant") && unBlocked && (hitPoint.collider.transform.FindChild ("Life") || first) && plant.GetComponent<Plant> ().CanGrow(hitPoint.collider.gameObject.GetComponent<Resourse>().xPos, hitPoint.collider.gameObject.GetComponent<Resourse>().yPos)) {
 				Debug.Log (first);
 				seeds[plant.GetComponent<Plant>().seedIndex] -= 1;
 				first = false;
