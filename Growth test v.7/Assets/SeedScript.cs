@@ -8,7 +8,9 @@ public class SeedScript : MonoBehaviour {
 	public bool isMoving = false;
 
 	void Update () {
-		if(isMoving)
-			transform.position += new Vector3 (0,1,0) * speed * Time.deltaTime;
+		if (isMoving) {
+			transform.position += new Vector3 (0, 1, 0) * speed * Time.deltaTime;
+			transform.rotation = new Quaternion (0, 0, 0, 0);
+		}
 	}
 }
