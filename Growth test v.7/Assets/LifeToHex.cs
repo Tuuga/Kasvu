@@ -29,7 +29,7 @@ public class LifeToHex : MonoBehaviour {
 		}
 
 		if (lifeToHexRatio >= lifeToWin) {
-			WinState();
+			Application.LoadLevel (0);
 		}
 	}
 

@@ -35,7 +35,7 @@ public class MouseScript : MonoBehaviour {
 	static public bool editorInUse = false;
 
 	void Start () {
-
+		editorInUse = false;
 		axisGrid = GameObject.Find ("GM").GetComponent<Grid> ();
 		Hexes = axisGrid.heksagons;
 		key = axisGrid.gridWidthInHexes + (axisGrid.gridHeightInHexes - 1) / 2;
@@ -50,7 +50,7 @@ public class MouseScript : MonoBehaviour {
 
 		//LookMode
 		//Panning
-		if ((!GameInterFace.hasPlant && !GameInterFace.upRoot) || Input.GetKey (KeyCode.LeftShift)) {
+		if ((!GameInterFace.hasPlant && !GameInterFace.upRoot && !editorInUse) || Input.GetKey (KeyCode.LeftShift)) {
 			lookMode = true;
 
 			if (Input.GetKey (KeyCode.Mouse0)) {
@@ -219,7 +219,7 @@ public class MouseScript : MonoBehaviour {
 				Debug.Log ("Nutrients");
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.Space))
+		if (Input.GetKey (KeyCode.Space) && Input.GetKey (KeyCode.C))
 			editorInUse = !editorInUse;
 	}
 }
