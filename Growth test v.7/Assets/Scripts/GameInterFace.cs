@@ -120,10 +120,6 @@ public class GameInterFace : MonoBehaviour {
 	
 	// Update is called once per app
 	void Update () {
-		if (Input.GetKey (KeyCode.LeftShift) && Input.GetKey (KeyCode.Space)) {
-			Application.LoadLevel(0);
-		}
-
 
 		if ((MouseScript.editorInUse || (!hasPlant && !upRoot)) && currentReflection) {
 			Destroy(currentReflection);

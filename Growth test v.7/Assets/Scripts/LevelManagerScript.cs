@@ -35,7 +35,7 @@ public class LevelManagerScript : MonoBehaviour {
 	}
 
 	public void StartLevel () {
-		Application.LoadLevel (markInt + 1);
+		Application.LoadLevel (markInt);
 	}
 
 	public void LeftArrow () {
