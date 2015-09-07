@@ -22,7 +22,6 @@ public class TimerScript : MonoBehaviour {
 		imageIndex = Mathf.Clamp((int)Mathf.Round (timer / (timeToLose / 8)), 0, 8);
 
 		GetComponent<Image>().sprite = timerImageList [imageIndex];
-		Debug.Log (timer);
 
 		if (timer <= 0) {
 			Application.LoadLevel (7);
