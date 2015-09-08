@@ -13,6 +13,10 @@ public class GrowthManager : MonoBehaviour {
 	
 	Grid axisGrid;
 
+	float spawnTimer;
+	bool spawningLife;
+	bool canSpawn;
+
 	int key;
 	int X;
 	int Y;
@@ -23,6 +27,10 @@ public class GrowthManager : MonoBehaviour {
 		axisGrid = gameObject.GetComponent<Grid> ();
 		Hexes = axisGrid.heksagons;
 		key = axisGrid.gridWidthInHexes + (axisGrid.gridHeightInHexes - 1) / 2;
+	}
+
+	void Update () {
+
 	}
 
 	public void SetLifeInHex (GameObject plant) {
@@ -48,13 +56,13 @@ public class GrowthManager : MonoBehaviour {
 		for (int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
 			for (int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
 				hexInUse = Hexes [x + y * key];
-
 				if (hexInUse.GetComponent<Resourse> ().lifeInHex > 0 && !hexInUse.transform.FindChild ("Life")) {
 					GameObject lifeIns = (GameObject)Instantiate (lifePrefab, hexInUse.transform.position, new Quaternion (0, 0, 0, 0));
 					lifeIns.name = "Life";
 					lifeIns.transform.LookAt (parentHex.transform);
 					lifeIns.transform.parent = hexInUse.transform;
-
+					lifeIns.SetActive (false);
+					hexInUse.GetComponent<HexVisualizer>().showLifeTimer = true;
 				}
 			}
 		}

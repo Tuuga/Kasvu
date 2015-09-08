@@ -21,6 +21,10 @@ public class HexVisualizer : MonoBehaviour {
 	int nutrientIndex;
 	int waterIndex;
 
+	public bool showLifeTimer;
+	float randomTimer;
+	float randomTime;
+
 	void Start () {
 
 		GetComponent<Renderer>().material.shaderKeywords = new string[1]{"_NORMALMAP"};
@@ -28,6 +32,7 @@ public class HexVisualizer : MonoBehaviour {
 		VisUpdate();
 		SpawnResourceFlowers ();
 		ResFlowerUpdate ();
+		randomTime = Random.Range (0,3f);
 	}
 
 	void Update () {
@@ -38,6 +43,14 @@ public class HexVisualizer : MonoBehaviour {
 			VisUpdate();
 			ResFlowerUpdate();
 		}
+
+		if (showLifeTimer == true) {
+			randomTimer += Time.deltaTime;
+			if (randomTimer > randomTime) {
+				transform.FindChild("Life").gameObject.SetActive (true);
+				showLifeTimer = false;
+			}
+		}
 	}
 
 	void SpawnResourceFlowers () {
@@ -45,11 +58,11 @@ public class HexVisualizer : MonoBehaviour {
 		wflowers = new GameObject[5];
 		nflowers = new GameObject[5];
 
-		//Water on the left
+		//WaterFlower position on the left of the hex
 		float[] wX = {-0.2f,-0.55f,-0.7f,-0.55f,-0.2f};
 		float[] wZ = {-0.6f,-0.4f,0f,0.4f,0.6f}; //2D Y
 
-		//Nutrient on the right
+		//NutrientFlower position on the right of the hex
 		float[] nX = {0.2f,0.55f,0.7f,0.55f,0.2f};
 		float[] nZ = {-0.6f,-0.4f,0f,0.4f,0.6f}; //2D Y
 

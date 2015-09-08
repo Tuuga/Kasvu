@@ -47,30 +47,9 @@ public class LifeScript : MonoBehaviour {
 
 		X = parentHex.GetComponent<Resourse> ().xPos;
 		Y = parentHex.GetComponent<Resourse> ().yPos;
-//		R = resRadius;
-//		for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
-//			for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
-//				resHexCount ++;
-//			}
-//		}
-//		sharedWaterUse = waterUse / resHexCount;
-//		sharedNutrientUse = nutrientUse / resHexCount;
 	}
 
 	void Update () {
-
-		//Radius for resource use
-//		R = resRadius;
-//		for(int y = Mathf.Max (Y - R, 0); y <= Mathf.Min (Y + R, axisGrid.gridHeightInHexes - 1); y ++) {
-//			for(int x = Mathf.Max(X - R, X - R + y - Y, 0 + y / 2); x <= Mathf.Min(X + R, X + R + y - Y, axisGrid.gridWidthInHexes + y / 2 - 1); x ++) {
-//
-//				Hexes[x + y * key].GetComponent<Resourse>().water -= sharedWaterUse;
-//				Hexes[x + y * key].GetComponent<Resourse>().nutrients -= sharedNutrientUse;
-//	
-//				totalWaterInRadius += Hexes[x + y * key].GetComponent<Resourse>().water;
-//				totalNutrientInRadius += Hexes[x + y * key].GetComponent<Resourse>().nutrients;
-//			}
-//		}
 
 		//Time for growth
 		growTimer += Time.deltaTime;
@@ -101,7 +80,5 @@ public class LifeScript : MonoBehaviour {
 		if (lifeStartRadius < 0) {
 			lifeStartRadius = 0;
 		}
-//		totalWaterInRadius = 0;
-//		totalNutrientInRadius = 0;
 	}
 }
