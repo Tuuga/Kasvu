@@ -22,6 +22,10 @@ public class HexVisualizer : MonoBehaviour {
 	int waterIndex;
 
 	public bool showLifeTimer;
+	bool showFlowers;
+	bool startFlowerTimer;
+	float flowerTimer;
+
 	float randomTimer;
 	float randomTime;
 
@@ -31,7 +35,7 @@ public class HexVisualizer : MonoBehaviour {
 
 		VisUpdate();
 		SpawnResourceFlowers ();
-		ResFlowerUpdate ();
+//		ResFlowerUpdate ();
 		randomTime = Random.Range (0,3f);
 	}
 
@@ -49,6 +53,14 @@ public class HexVisualizer : MonoBehaviour {
 			if (randomTimer > randomTime) {
 				transform.FindChild("Life").gameObject.SetActive (true);
 				showLifeTimer = false;
+			}
+		}
+
+		if (startFlowerTimer) {
+			flowerTimer += Time.deltaTime;
+			if (flowerTimer > 6 + randomTime) {
+				startFlowerTimer = false;
+				showFlowers = true;
 			}
 		}
 	}
@@ -94,14 +106,17 @@ public class HexVisualizer : MonoBehaviour {
 		}
 
 		if (transform.FindChild ("Life")) {
-			for (int i = 0; i < waterIndex; i++) {
-				wflowers [i].SetActive (true);
+			startFlowerTimer = true;
+			if (showFlowers) {
+				for (int i = 0; i < waterIndex; i++) {
+					wflowers [i].SetActive (true);
+				}
+				for (int i = 0; i < nutrientIndex; i++) {
+					nflowers [i].SetActive (true);
+				}
+			} else {
+				ResFlowerHardReset ();
 			}
-			for (int i = 0; i < nutrientIndex; i++) {
-				nflowers [i].SetActive (true);
-			}
-		} else {
-			ResFlowerHardReset();
 		}
 	}
 
