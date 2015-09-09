@@ -53,14 +53,16 @@ public class HexVisualizer : MonoBehaviour {
 			if (randomTimer > randomTime) {
 				transform.FindChild("Life").gameObject.SetActive (true);
 				showLifeTimer = false;
+				randomTimer = 0;
 			}
 		}
 
 		if (startFlowerTimer) {
 			flowerTimer += Time.deltaTime;
-			if (flowerTimer > 6 + randomTime) {
+			if (flowerTimer > 7 + randomTime) {
 				startFlowerTimer = false;
 				showFlowers = true;
+				flowerTimer = 0;
 			}
 		}
 	}
@@ -114,9 +116,10 @@ public class HexVisualizer : MonoBehaviour {
 				for (int i = 0; i < nutrientIndex; i++) {
 					nflowers [i].SetActive (true);
 				}
-			} else {
-				ResFlowerHardReset ();
-			}
+			} 
+		} else {
+			showFlowers = false;
+			ResFlowerHardReset ();
 		}
 	}
 
