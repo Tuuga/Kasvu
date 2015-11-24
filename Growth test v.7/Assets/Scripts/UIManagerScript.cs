@@ -26,8 +26,8 @@ public class UIManagerScript : MonoBehaviour {
 
 	void Start () {
 
-		waterColorRGBA = "#" + waterColor.ToHexStringRGBA();
-		nutrientColorRGBA ="#" + nutrientColor.ToHexStringRGBA();
+		//waterColorRGBA = "#" + waterColor.ToHexStringRGBA();
+		//nutrientColorRGBA ="#" + nutrientColor.ToHexStringRGBA();
 
 		if (GameObject.Find ("ModeToggle") != null) {
 			InputModeText = GameObject.Find ("ModeToggle").transform.FindChild ("Text").gameObject;
@@ -84,7 +84,7 @@ public class UIManagerScript : MonoBehaviour {
 		Text resUIButton = GameObject.Find("ResUIToggle").transform.FindChild("Text").GetComponent<Text>();
 		if (toggle) {
 			resUIButton.text = "Res UI ON";
-		}else {
+		} else {
 			resUIButton.text = "Res UI OFF";
 		}
 		}
